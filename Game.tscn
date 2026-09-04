@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://qrfy6xp1gxj8"]
+
+[ext_resource type="Shader" uid="uid://s40lgt2teeep" path="res://Checkerboard.gdshader" id="1_wbfu4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_qh0ns"]
+size = Vector3(8, 1, 8)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_al0qk"]
+render_priority = 0
+shader = ExtResource("1_wbfu4")
+shader_parameter/color_a = Color(0.9, 0.9, 0.9, 1)
+shader_parameter/color_b = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/tiles = 8.0
+
+[node name="Game" type="Node3D" unique_id=1160759843]
+
+[node name="Board" type="MeshInstance3D" parent="." unique_id=922747105]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_qh0ns")
+surface_material_override/0 = SubResource("ShaderMaterial_al0qk")
