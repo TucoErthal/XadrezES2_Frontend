@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://qrfy6xp1gxj8"]
+
+[ext_resource type="Shader" uid="uid://s40lgt2teeep" path="res://Checkerboard.gdshader" id="1_wbfu4"]
+[ext_resource type="Script" uid="uid://h2vh601ti24" path="res://Board.cs" id="2_u44n3"]
+[ext_resource type="Script" uid="uid://brlo2b0l4nkji" path="res://CameraControls.cs" id="2_xkndl"]
+[ext_resource type="PackedScene" uid="uid://bu5jqwaaxvm22" path="res://Piece.tscn" id="4_t88pq"]
+[ext_resource type="Script" uid="uid://cs6vsua8xd43s" path="res://Player.cs" id="5_t88pq"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_qh0ns"]
+size = Vector3(8, 0.25, 8)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_al0qk"]
+render_priority = 0
+shader = ExtResource("1_wbfu4")
+shader_parameter/color_a = Color(0.9, 0.9, 0.9, 1)
+shader_parameter/color_b = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/tiles = 1.0
+
+[node name="Game" type="Node3D" unique_id=1160759843]
+
+[node name="Board" type="MeshInstance3D" parent="." unique_id=922747105]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.125, 0)
+mesh = SubResource("BoxMesh_qh0ns")
+surface_material_override/0 = SubResource("ShaderMaterial_al0qk")
+script = ExtResource("2_u44n3")
+
+[node name="Player" type="Node" parent="." unique_id=1548798471]
+script = ExtResource("5_t88pq")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1210502260 node_paths=PackedStringArray("FocusNode")]
+script = ExtResource("2_xkndl")
+FocusNode = NodePath("FocusPoint")
+
+[node name="FocusPoint" type="Marker3D" parent="Camera3D" unique_id=1620064715]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=496781664]
+transform = Transform3D(-3.090862e-08, 0.70710677, -0.70710677, 3.090862e-08, 0.70710677, 0.70710677, 1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Piece" parent="." unique_id=2027384655 instance=ExtResource("4_t88pq")]
+
+[node name="Piece2" parent="." unique_id=257884501 instance=ExtResource("4_t88pq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="Piece3" parent="." unique_id=1136926084 instance=ExtResource("4_t88pq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
