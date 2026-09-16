@@ -6,14 +6,13 @@ public partial class Board : MeshInstance3D
 
     public override void _Ready()
     {
-        // Singleton Logic
         if (Instance == null)
         {
             Instance = this;
         }
         else if (this != Instance)
         {
-            QueueFree(); // Destroi o node
+            QueueFree(); 
         }
     }
 
@@ -35,5 +34,20 @@ public partial class Board : MeshInstance3D
         );
 
         return ToGlobal(localPosition);
+    }
+
+    // New: Reverse function to get logical grid coordinates from a world position
+    public Vector2I GetCoordinatesFromPosition(Vector3 globalPosition)
+    {
+        Vector3 localPosition = ToLocal(globalPosition);
+        
+        float halfBoard = GetAabb().GetLongestAxisSize() / 2;
+        float halfTile = GetAabb().GetLongestAxisSize() / 16;
+
+        // Reversing the math from GetPositionInBoard
+        int x = Mathf.RoundToInt(localPosition.X + halfBoard - halfTile);
+        int y = Mathf.RoundToInt(localPosition.Z + halfBoard - halfTile);
+
+        return new Vector2I(x, y);
     }
 }

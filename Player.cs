@@ -1,5 +1,5 @@
 using Godot;
-using System; // Required for System.Action
+using System; 
 
 public partial class Player : Node
 {
@@ -8,7 +8,6 @@ public partial class Player : Node
 
     public Piece SelectedPiece { get; private set; }
 
-    // This is the event all pieces subscribe to
     public static event Action OnGlobalDeselect;
 
     public override void _UnhandledInput(InputEvent @event)
@@ -37,7 +36,6 @@ public partial class Player : Node
 
         foreach (Piece piece in Piece.AllPieces)
         {
-            // Use the cached mesh reference from the Piece script
             MeshInstance3D visualMesh = piece.VisualMesh;
             
             if (visualMesh == null || visualMesh.Mesh == null) continue;
@@ -60,10 +58,8 @@ public partial class Player : Node
             }
         }
 
-        // If we clicked a piece
         if (closestPiece != null)
         {
-            // First, trigger a deselect on EVERYTHING so the previous piece loses its red tint
             OnGlobalDeselect?.Invoke();
 
             SelectedPiece = closestPiece;
@@ -71,15 +67,36 @@ public partial class Player : Node
             
             GD.Print($"SUCCESS! Selected Piece at {SelectedPiece.BoardCoordinates}");
         }
-        // If we clicked the void
-        else
+        else 
         {
+            // If we didn't click a piece, but one is currently selected, try to move it
+            if (SelectedPiece != null && Board.Instance != null)
+            {
+                // Create a flat mathematical plane matching the board's position/rotation
+                Plane boardPlane = new Plane(Board.Instance.GlobalTransform.Basis.Y, Board.Instance.GlobalPosition);
+                Vector3? intersection = boardPlane.IntersectsRay(rayOrigin, rayNormal);
+
+                if (intersection.HasValue)
+                {
+                    Vector2I boardCoords = Board.Instance.GetCoordinatesFromPosition(intersection.Value);
+
+                    // Ensure the click was actually inside the 8x8 boundaries
+                    if (boardCoords.X >= 0 && boardCoords.X <= 7 && boardCoords.Y >= 0 && boardCoords.Y <= 7)
+                    {
+                        Vector3? snapPosition = Board.Instance.GetPositionInBoard(boardCoords);
+                        if (snapPosition.HasValue)
+                        {
+                            SelectedPiece.GlobalPosition = snapPosition.Value;
+                            SelectedPiece.BoardCoordinates = boardCoords;
+                            GD.Print($"Piece moved to {boardCoords}");
+                        }
+                    }
+                }
+            }
+
             SelectedPiece = null;
-            
-            // Trigger the deselect event to clear the red tint from whatever was selected
             OnGlobalDeselect?.Invoke(); 
-            
-            GD.Print("Clicked empty space. Selection cleared.");
+            GD.Print("Selection cleared.");
         }
     }
 }
