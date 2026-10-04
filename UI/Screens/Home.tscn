@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://d10iojicbicj2"]
+
+[ext_resource type="Script" uid="uid://bo0ckj1bihf2r" path="res://UI/Screens/HomeScreen.cs" id="1_abddq"]
+
+[node name="Home" type="Control" unique_id=2015992013]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 25.0
+offset_top = 21.0
+offset_right = 65.0
+offset_bottom = 61.0
+
+[node name="Button" type="Button" parent="." unique_id=1651237869]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Jogar"
+script = ExtResource("1_abddq")
