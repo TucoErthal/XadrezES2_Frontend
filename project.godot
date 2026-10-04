@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="XadrezES2_Frontend"
-run/main_scene="uid://qrfy6xp1gxj8"
+run/main_scene="uid://baeqvjocgyul5"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Router="*uid://b33opfgjc5ng0"
 
 [display]
 
