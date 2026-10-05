@@ -1,0 +1,29 @@
+on:
+  pull_request:
+    types: [opened, edited, synchronized]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validar Nome da Branch
+        uses: deepakputhraya/action-branch-name@v1.0.0
+        with:
+          regex: '^(feat|fix|refactor|docs|style|test|chore|ci)/[0-9]+-[a-z0-9-]+$'
+          allowed_prefixes: 'feat,fix,refactor,docs,style,test,chore,ci'
+          ignore_branches: 'main,master,develop'
+      - name: Validar Título do PR
+        uses: amannn/action-semantic-pull-request@v5
+        with:
+          types: |
+            feat
+            fix
+            refactor
+            docs
+            style
+            test
+            chore
+            ci
+          requireScope: false
+          subjectPattern: '^\[#[0-9]+\] .+$'
+          subjectPatternError: 'O título do PR deve começar com [#ID_ISSUE] seguido da descrição.'
