@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Env="*uid://uhoavnpv8y50"
 Router="*uid://82j7ytlmjlky"
 RestClient="*uid://bt6p38jswqkls"
+WsClient="*uid://5y6vk6a1dhmd"
 
 [display]
 
