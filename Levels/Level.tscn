@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://d0gp0q28qb71u" path="res://Levels/Board.gd" id="2_286st"]
 [ext_resource type="Script" uid="uid://bqyn6ce3lhi6u" path="res://Entities/Player/Player.gd" id="3_ht8ui"]
 [ext_resource type="Script" uid="uid://b2pvdylhbjgav" path="res://Entities/Camera/CameraControls.gd" id="4_n6v67"]
-[ext_resource type="PackedScene" uid="uid://bu5jqwaaxvm22" path="res://Entities/Pieces/Piece.tscn" id="5_345ms"]
+[ext_resource type="Script" uid="uid://bpjo80s1xeytb" path="res://Levels/GameManager.gd" id="6_q1ycg"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_qh0ns"]
 size = Vector3(8, 0.25, 8)
@@ -36,10 +36,5 @@ focus_node = NodePath("FocusPoint")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=496781664]
 transform = Transform3D(-3.090862e-08, 0.7071068, -0.7071068, 3.090862e-08, 0.7071068, 0.7071068, 1, 0, -4.3711392e-08, 0, 0, 0)
 
-[node name="Piece" parent="." unique_id=2027384655 instance=ExtResource("5_345ms")]
-
-[node name="Piece2" parent="." unique_id=257884501 instance=ExtResource("5_345ms")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
-
-[node name="Piece3" parent="." unique_id=1136926084 instance=ExtResource("5_345ms")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+[node name="GameManager" type="Node" parent="." unique_id=1709977607]
+script = ExtResource("6_q1ycg")
