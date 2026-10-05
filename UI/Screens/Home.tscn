@@ -2,31 +2,62 @@
 
 [ext_resource type="Script" uid="uid://0dmn23r4pwbl" path="res://UI/Screens/HomeScreen.gd" id="1_abddq"]
 
-[node name="Home" type="Control" unique_id=2015992013 node_paths=PackedStringArray("btn_pvp", "btn_pve", "btn_eve")]
+[sub_resource type="LabelSettings" id="LabelSettings_abddq"]
+font_size = 36
+
+[node name="Home" type="Control" unique_id=2015992013 node_paths=PackedStringArray("background", "title_label", "btn_pvp", "btn_pve", "btn_eve")]
+propagate_maximum_size = true
 layout_mode = 3
-anchors_preset = 0
-offset_left = 25.0
-offset_top = 21.0
-offset_right = 65.0
-offset_bottom = 61.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_abddq")
-btn_pvp = NodePath("VBoxContainer/Button")
-btn_pve = NodePath("VBoxContainer/Button2")
-btn_eve = NodePath("VBoxContainer/Button3")
+background = NodePath("ColorRect")
+title_label = NodePath("CenterContainer/VBoxContainer/Label")
+btn_pvp = NodePath("CenterContainer/VBoxContainer/Button")
+btn_pve = NodePath("CenterContainer/VBoxContainer/Button2")
+btn_eve = NodePath("CenterContainer/VBoxContainer/Button3")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=815169503]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="ColorRect" type="ColorRect" parent="." unique_id=851327646]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.052335806, 0.027405107, 0.06749416, 1)
 
-[node name="Button" type="Button" parent="VBoxContainer" unique_id=1651237869]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1575008900]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=815169503]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1933184861]
+layout_mode = 2
+text = "Nome Temporário"
+label_settings = SubResource("LabelSettings_abddq")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+uppercase = true
+
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1651237869]
 layout_mode = 2
 text = "Jogar Online (JxJ)"
 
-[node name="Button2" type="Button" parent="VBoxContainer" unique_id=1416185391]
+[node name="Button2" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1416185391]
 layout_mode = 2
 text = "Jogar contra IA (JxIA)"
 
-[node name="Button3" type="Button" parent="VBoxContainer" unique_id=741974534]
+[node name="Button3" type="Button" parent="CenterContainer/VBoxContainer" unique_id=741974534]
 layout_mode = 2
 text = "Assistir (IAxIA)"

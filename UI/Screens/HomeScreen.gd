@@ -1,27 +1,69 @@
 extends Control
 class_name HomeScreen
 
+# Referências exportadas (arraste os nós correspondentes no Inspector)
+@export var background: ColorRect
+@export var title_label: Label
 @export var btn_pvp: Button
 @export var btn_pve: Button
 @export var btn_eve: Button
 
 func _ready() -> void:
-	# Conecta os botões da interface aos métodos correspondentes
+	_apply_modern_theme()
+	
 	if btn_pvp: btn_pvp.pressed.connect(_on_pvp_pressed)
 	if btn_pve: btn_pve.pressed.connect(_on_pve_pressed)
 	if btn_eve: btn_eve.pressed.connect(_on_eve_pressed)
 
+func _apply_modern_theme() -> void:
+	# 1. Cor de fundo escuro (Dark Mode)
+	if background:
+		background.color = Color("#181820")
+	
+	# 2. Estilo do Título (Grande, com sombra e cor de destaque)
+	if title_label:
+		title_label.add_theme_font_size_override("font_size", 64)
+		title_label.add_theme_color_override("font_color", Color("#ffffff"))
+		title_label.add_theme_color_override("font_shadow_color", Color("#000000"))
+		title_label.add_theme_constant_override("shadow_offset_x", 4)
+		title_label.add_theme_constant_override("shadow_offset_y", 4)
+
+	# 3. Criar o visual dos botões
+	var normal_style = StyleBoxFlat.new()
+	normal_style.bg_color = Color("#2a2a35") # Cinza escuro azulado
+	normal_style.corner_radius_top_left = 12
+	normal_style.corner_radius_top_right = 12
+	normal_style.corner_radius_bottom_left = 12
+	normal_style.corner_radius_bottom_right = 12
+	normal_style.content_margin_top = 16
+	normal_style.content_margin_bottom = 16
+	normal_style.content_margin_left = 32
+	normal_style.content_margin_right = 32
+	
+	# 4. Criar o visual de "Hover" (quando passa o mouse por cima)
+	var hover_style = normal_style.duplicate()
+	hover_style.bg_color = Color("#3d73ff") # Azul vibrante de destaque
+	
+	# 5. Aplicar estilos aos botões
+	var buttons = [btn_pvp, btn_pve, btn_eve]
+	for btn in buttons:
+		if btn:
+			btn.add_theme_stylebox_override("normal", normal_style)
+			btn.add_theme_stylebox_override("hover", hover_style)
+			btn.add_theme_stylebox_override("pressed", normal_style)
+			btn.add_theme_font_size_override("font_size", 24)
+			# Muda o mouse para a "mãozinha" ao passar por cima
+			btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+
+# --- Funções de Navegação ---
+
 func _on_pvp_pressed() -> void:
-	# Modo Jogador vs Jogador (Online)
-	# Inicia o fluxo Guest mandando o usuário para a tela de Login
 	Router.navigate_to("Login")
 
 func _on_pve_pressed() -> void:
-	# Modo Jogador vs IA
 	print("Iniciando modo JxIA...")
-	# Futuro: Router.load_level("res://Levels/Level.tscn") e configurar motor de IA
+	# Adicione a navegação futura aqui
 	
 func _on_eve_pressed() -> void:
-	# Modo IA vs IA
 	print("Iniciando modo IAxIA...")
-	# Futuro: Router.load_level("res://Levels/Level.tscn") e colocar duas IAs jogando
+	# Adicione a navegação futura aqui
