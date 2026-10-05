@@ -9,7 +9,8 @@ var _current_level: Node
 
 var _routes: Dictionary = {
 	"Home": "res://UI/Screens/Home.tscn",
-	"Lobby": "res://UI/Screens/Lobby.tscn",
+	"Login": "res://UI/Screens/LoginScreen.tscn",
+	"Lobby": "res://UI/Screens/LobbyScreen.tscn",
 	"GameUI": "res://UI/Screens/GameUI.tscn"
 }
 
