@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://bji3xgt46glrj"]
 
 [ext_resource type="Shader" uid="uid://s40lgt2teeep" path="res://Levels/Checkerboard.gdshader" id="1_y3x56"]
-[ext_resource type="Script" uid="uid://h2vh601ti24" path="res://Levels/Board.cs" id="2_qc8g6"]
-[ext_resource type="Script" uid="uid://cs6vsua8xd43s" path="res://Entities/Player/Player.cs" id="3_ht8ui"]
-[ext_resource type="Script" uid="uid://brlo2b0l4nkji" path="res://Entities/Camera/CameraControls.cs" id="4_n6v67"]
+[ext_resource type="Script" uid="uid://d0gp0q28qb71u" path="res://Levels/Board.gd" id="2_286st"]
+[ext_resource type="Script" uid="uid://bqyn6ce3lhi6u" path="res://Entities/Player/Player.gd" id="3_ht8ui"]
+[ext_resource type="Script" uid="uid://b2pvdylhbjgav" path="res://Entities/Camera/CameraControls.gd" id="4_n6v67"]
 [ext_resource type="PackedScene" uid="uid://bu5jqwaaxvm22" path="res://Entities/Pieces/Piece.tscn" id="5_345ms"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_qh0ns"]
@@ -22,14 +22,14 @@ shader_parameter/tiles = 1.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.125, 0)
 mesh = SubResource("BoxMesh_qh0ns")
 surface_material_override/0 = SubResource("ShaderMaterial_al0qk")
-script = ExtResource("2_qc8g6")
+script = ExtResource("2_286st")
 
 [node name="Player" type="Node" parent="." unique_id=1548798471]
 script = ExtResource("3_ht8ui")
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1210502260 node_paths=PackedStringArray("FocusNode")]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1210502260 node_paths=PackedStringArray("focus_node")]
 script = ExtResource("4_n6v67")
-FocusNode = NodePath("FocusPoint")
+focus_node = NodePath("FocusPoint")
 
 [node name="FocusPoint" type="Marker3D" parent="Camera3D" unique_id=1620064715]
 

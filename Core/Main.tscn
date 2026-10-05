@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://baeqvjocgyul5"]
 
-[ext_resource type="Script" uid="uid://4quvs7nqe7gx" path="res://Core/Main.cs" id="7_c6i3y"]
+[ext_resource type="Script" uid="uid://dedyutwwaprkb" path="res://Core/Main.gd" id="1_mlbys"]
 
-[node name="Main" type="Node" unique_id=441098059 node_paths=PackedStringArray("LevelContainer", "UIContainer")]
-script = ExtResource("7_c6i3y")
-LevelContainer = NodePath("LevelContainer")
-UIContainer = NodePath("UIContainer")
+[node name="Main" type="Node" unique_id=441098059 node_paths=PackedStringArray("level_container", "ui_container")]
+script = ExtResource("1_mlbys")
+level_container = NodePath("LevelContainer")
+ui_container = NodePath("UIContainer")
 
 [node name="LevelContainer" type="Node3D" parent="." unique_id=1837678940]
 
