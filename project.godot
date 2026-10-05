@@ -17,7 +17,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Env="*uid://uhoavnpv8y50"
 Router="*uid://82j7ytlmjlky"
+RestClient="*uid://bt6p38jswqkls"
 
 [display]
 
