@@ -40,7 +40,7 @@ func _on_confirm_pressed() -> void:
 	# if response.success:
 	#     Se for privada, você pode mostrar um popup com o código gerado, 
 	#     ou já pular para a GameUI com um painel de "Aguardando Oponente".
-	# Router.navigate_to("GameUI")
+	Router.navigate_to("WaitingRoom")
 
 func _apply_modern_theme() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
