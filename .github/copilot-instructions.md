@@ -10,14 +10,18 @@ Sempre gere o título do Pull Request estritamente no seguinte padrão:
 
 Ao gerar ou resumir Pull Requests para este repositório, siga estritamente estas diretrizes:
 
-1. **Formato do Template**: Sempre preencha o arquivo de template `.github/PULL_REQUEST_TEMPLATE.md`.
-2. **Issue Relacionada**:
-   - Extraia o número da issue a partir do nome da branch (ex: de `feat/42-integração` extraia `42`) ou do título da PR (ex: `[#42]`).
-   - Preencha o campo com `Closes #<ID_DA_ISSUE>`.
-3. **O que foi feito**:
-   - Analise os *commits* e os arquivos alterados (diff).
-   - Resuma as alterações principais usando marcadores (`-`).
-4. **Como testar**:
-   - Forneça instruções passo a passo numeradas (`1.`, `2.`) descrevendo como subir e testar as alterações (ex: comandos Docker, chamadas HTTP, endpoints).
-5. **Checklist**:
-   - Mantenha os checkboxes do template e marque `[x]` apenas nos itens que foram confirmados nas alterações do código/diff (ex: se novos arquivos de teste foram criados, marque o item de testes).
+1. **Formato do Título do PR**:
+   - Use estritamente o padrão: `[#<id_issue>] <Descrição no imperativo e em português>`
+   - Extraia o `<id_issue>` do nome da branch (ex: de `feat/42-comunicacao-backend-ia` extraia `42`).
+   - Exemplo: `[#42] Implementa comunicação Backend-IA`
+
+2. **Estrutura dos Títulos de Seção**:
+   - Utilize exatamente estes títulos em Markdown, sem adicionar sufixos ou parênteses:
+     - `## O que foi feito`
+     - `## Issue Relacionada`
+     - `## Como testar`
+
+3. **Preenchimento dos Campos**:
+   - **O que foi feito**: Resuma as alterações do diff em tópicos (`-`).
+   - **Issue Relacionada**: Preencha com `Closes #<ID_DA_ISSUE>`.
+   - **Como testar**: Liste o passo a passo numerado (`1.`, `2.`). Caso a alteração não seja testável diretamente via execução (ex: alterações puramente em documentação ou pipelines CI/CD), escreva `N/A`.
