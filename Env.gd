@@ -1,7 +1,7 @@
 extends Node
 
-var api_url: String = "http://localhost:3000"
-var ws_url: String = "ws://localhost:3000"
+var api_url: String = "http://localhost:8080"
+var ws_url: String = "ws://localhost:8080"
 
 func _ready() -> void:
 	var config := ConfigFile.new()
