@@ -11,6 +11,8 @@ var _routes: Dictionary = {
 	"Home": "res://UI/Screens/Home.tscn",
 	"Login": "res://UI/Screens/LoginScreen.tscn",
 	"Lobby": "res://UI/Screens/LobbyScreen.tscn",
+	"CreateRoom": "res://UI/Screens/CreateRoomScreen.tscn",
+	"WaitingRoom": "res://UI/Screens/WaitingRoomScreen.tscn",
 	"GameUI": "res://UI/Screens/GameUI.tscn"
 }
 

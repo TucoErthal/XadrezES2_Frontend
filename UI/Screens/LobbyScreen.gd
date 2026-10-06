@@ -7,14 +7,16 @@ class_name LobbyScreen
 @export var btn_refresh: Button
 @export var btn_create: Button
 @export var match_list_container: VBoxContainer
+@export var input_code: LineEdit
+@export var btn_join_code: Button
 
 func _ready() -> void:
 	_apply_modern_theme()
 	
 	if btn_refresh: btn_refresh.pressed.connect(_on_refresh_pressed)
 	if btn_create: btn_create.pressed.connect(_on_create_pressed)
+	if btn_join_code: btn_join_code.pressed.connect(_on_join_code_pressed)
 	
-	# Carrega a lista de partidas ao abrir a tela
 	_fetch_matches()
 
 # --- Comunicação com o Servidor (Mock) ---
@@ -106,21 +108,30 @@ func _create_match_ui_item(data: Dictionary) -> PanelContainer:
 	
 	return panel
 
+
 # --- Ações dos Botões ---
 
 func _on_refresh_pressed() -> void:
 	_fetch_matches()
 
 func _on_create_pressed() -> void:
-	print("Solicitando criação de partida...")
-	# Exemplo: RestClient.create_room()
-	# Após o sucesso da criação na API:
-	# Router.navigate_to("GameUI") ou recarregar a lista
+	# Agora o botão criar apenas navega para a nova tela
+	Router.navigate_to("CreateRoom")
 
 func _on_join_pressed(match_id: String) -> void:
 	print("Tentando entrar na partida: ", match_id)
 	# Exemplo: RestClient.join_room(match_id)
 	# Após o sucesso da API:
+	# Router.navigate_to("GameUI")
+
+func _on_join_code_pressed() -> void:
+	var code = input_code.text.strip_edges()
+	if code.is_empty():
+		print("Por favor, digite um código!")
+		return
+		
+	print("Tentando entrar na sala privada com código: ", code)
+	# Ex: RestClient.join_private_room(code)
 	# Router.navigate_to("GameUI")
 
 # --- Estilização Geral da Tela ---
@@ -158,3 +169,37 @@ func _apply_modern_theme() -> void:
 			btn.add_theme_stylebox_override("pressed", btn_style)
 			btn.add_theme_font_size_override("font_size", 18)
 			btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	
+	# Estilo do campo de código (LineEdit)
+	if input_code:
+		var line_edit_style = StyleBoxFlat.new()
+		line_edit_style.bg_color = Color("#22222d")
+		line_edit_style.corner_radius_top_left = 8
+		line_edit_style.corner_radius_top_right = 8
+		line_edit_style.corner_radius_bottom_left = 8
+		line_edit_style.corner_radius_bottom_right = 8
+		line_edit_style.content_margin_left = 15
+		line_edit_style.content_margin_right = 15
+		
+		input_code.add_theme_stylebox_override("normal", line_edit_style)
+		input_code.add_theme_stylebox_override("focus", line_edit_style)
+		input_code.add_theme_font_size_override("font_size", 16)
+	
+	# Estilo do Botão Entrar com Código (Verde)
+	if btn_join_code:
+		var join_code_style = StyleBoxFlat.new()
+		join_code_style.bg_color = Color("#10b981")
+		join_code_style.corner_radius_top_left = 8
+		join_code_style.corner_radius_top_right = 8
+		join_code_style.corner_radius_bottom_left = 8
+		join_code_style.corner_radius_bottom_right = 8
+		join_code_style.content_margin_left = 20
+		join_code_style.content_margin_right = 20
+		
+		var join_code_hover = join_code_style.duplicate()
+		join_code_hover.bg_color = Color("#34d399")
+		
+		btn_join_code.add_theme_stylebox_override("normal", join_code_style)
+		btn_join_code.add_theme_stylebox_override("hover", join_code_hover)
+		btn_join_code.add_theme_font_size_override("font_size", 16)
+		btn_join_code.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND

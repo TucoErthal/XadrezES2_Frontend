@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://ck87qx1tkvcm8"]
+
+[ext_resource type="Script" uid="uid://djspl7pj1816p" path="res://UI/Screens/WaitingRoomScreen.gd" id="1_oqnmf"]
+
+[node name="Control" type="Control" unique_id=2069687999 node_paths=PackedStringArray("background", "card_panel", "title_label", "input_code", "btn_copy", "btn_cancel", "btn_mock_join")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oqnmf")
+background = NodePath("ColorRect")
+card_panel = NodePath("CenterContainer/PanelContainer")
+title_label = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Label")
+input_code = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/LineEdit")
+btn_copy = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Button")
+btn_cancel = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Button")
+btn_mock_join = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Button2")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=980805384]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=554437555]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=1255616279]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" unique_id=1391080838]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer" unique_id=2017103888]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1927112159]
+layout_mode = 2
+text = "Aguardando Oponente"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1118297111]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=661262725]
+layout_mode = 2
+text = "Código da Sala: "
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1168691530]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=795409820]
+layout_mode = 2
+editable = false
+
+[node name="Button" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=358282856]
+layout_mode = 2
+text = "Copia"
+
+[node name="Label2" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=14222193]
+layout_mode = 2
+text = "Procurand Jogador..."
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1243911640]
+layout_mode = 2
+text = "Cancel"
+
+[node name="Button2" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1861070056]
+layout_mode = 2
+text = "Simular Entrada"
