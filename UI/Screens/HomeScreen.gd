@@ -62,6 +62,7 @@ func _on_pvp_pressed() -> void:
 
 func _on_pve_pressed() -> void:
 	print("Iniciando modo JxIA...")
+	Router.navigate_to("Lobby")
 	# Adicione a navegação futura aqui
 	
 func _on_eve_pressed() -> void:
