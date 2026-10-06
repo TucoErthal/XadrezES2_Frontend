@@ -11,9 +11,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_do3vk")
 background = NodePath("Background")
-title_label = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Label")
-btn_refresh = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Button")
-btn_create = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Button2")
+title_label = NodePath("MarginContainer/VBoxContainer/Header/Title")
+btn_refresh = NodePath("MarginContainer/VBoxContainer/Header/Refresh")
+btn_create = NodePath("MarginContainer/VBoxContainer/Header/New")
 match_list_container = NodePath("MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer")
 
 [node name="Background" type="ColorRect" parent="." unique_id=930222663]
@@ -40,22 +40,32 @@ theme_override_constants/margin_bottom = 40
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1665442046]
+[node name="Header" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1665442046]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1386852994]
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/Header" unique_id=1386852994]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Lobby: Partidas Abertas"
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1442269704]
+[node name="Refresh" type="Button" parent="MarginContainer/VBoxContainer/Header" unique_id=1442269704]
 layout_mode = 2
 text = "Atualizar"
 
-[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=2012882152]
+[node name="New" type="Button" parent="MarginContainer/VBoxContainer/Header" unique_id=2012882152]
 layout_mode = 2
 text = "+ Criar Partida"
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/Header" unique_id=2141726381]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Código da Sala"
+max_length = 8
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Header" unique_id=347837756]
+layout_mode = 2
+text = "Entrar com Código"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer" unique_id=783581315]
 layout_mode = 2
