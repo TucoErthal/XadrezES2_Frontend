@@ -5,6 +5,7 @@ static var all_pieces: Array[Piece] = []
 
 var visual_mesh: MeshInstance3D
 var board_coordinates: Vector2i = Vector2i.ZERO
+var is_white: bool = true
 
 var _tinted_material: StandardMaterial3D
 

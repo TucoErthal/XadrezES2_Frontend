@@ -47,6 +47,13 @@ func _try_select_piece() -> void:
 
 	# Se clicou em uma peça
 	if closest_piece != null:
+		var my_side = RestClient.my_side
+		var is_my_piece = (closest_piece.is_white and my_side == "WHITE") or (not closest_piece.is_white and my_side == "BLACK")
+		
+		if not is_my_piece:
+			print("Você só pode selecionar suas próprias peças!")
+			return
+		
 		_clear_selections()
 
 		selected_piece = closest_piece
@@ -73,7 +80,6 @@ func _try_select_piece() -> void:
 		_clear_selections()
 		print("Selection cleared.")
 
-# NOVA FUNÇÃO: Limpa a seleção de todas as peças registradas
 func _clear_selections() -> void:
 	for piece in Piece.all_pieces:
 		piece.deselect()
