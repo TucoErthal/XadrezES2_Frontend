@@ -21,10 +21,13 @@ func _ready() -> void:
 	# Conecta para receber snapshots do WebSocket
 	WsClient.game_state_updated.connect(_on_game_state_updated)
 	
-	# Assim que a tela carrega, tentamos puxar o estado atual do RestClient
-	_sync_with_snapshot(RestClient.current_game_snapshot)
+	var snap = RestClient.current_game_snapshot
+	_sync_with_snapshot(snap)
 	
-	# Renderiza o tabuleiro 3D em background se ainda não estiver instanciado
+	var game_id = snap.get("gameId", "")
+	if not game_id.is_empty():
+		WsClient.connect_and_subscribe(game_id)
+	
 	Router.load_level("res://Levels/Level.tscn")
 
 func _process(delta: float) -> void:

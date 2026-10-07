@@ -7,25 +7,35 @@ func _ready() -> void:
 	# Conecta aos sinais globais do WebSocket
 	WsClient.game_state_updated.connect(_on_game_snapshot)
 	#WsClient.game_move_applied.connect(_on_game_move_applied)
+	call_deferred("_check_initial_snapshot")
+
+func _check_initial_snapshot() -> void:
+	if not RestClient.current_game_snapshot.is_empty():
+		_on_game_snapshot(RestClient.current_game_snapshot)
 
 # ==========================================
 # RECONSTRUÇÃO DO TABULEIRO (FEN)
 # ==========================================
 func _on_game_snapshot(payload: Dictionary) -> void:
-	var fen = payload.get("fen", "")
+	# 1. Pega o dicionário 'position' e depois extrai o 'fen' dele
+	var position_data = payload.get("position")
+	if typeof(position_data) != TYPE_DICTIONARY:
+		return
+		
+	var fen = position_data.get("fen", "")
 	if fen.is_empty():
 		return
 		
 	print("Snapshot recebido. Reconstruindo tabuleiro: ", fen)
 	
-	# 1. Destruir as peças antigas do tabuleiro
+	# 2. Destruir as peças antigas do tabuleiro
 	for piece in Piece.all_pieces.duplicate():
 		piece.queue_free()
 		
 	# Espera um frame para garantir a limpeza na engine
 	await get_tree().process_frame
 	
-	# 2. Converter o FEN para um mapa de peças e instanciar
+	# 3. Usa o seu ChessNotation.gd para instanciar!
 	var pieces_data = ChessNotation.parse_fen_board(fen)
 	for data in pieces_data:
 		_spawn_piece(data["piece"], data["pos"])
@@ -38,12 +48,23 @@ func _spawn_piece(type: String, coords: Vector2i) -> void:
 	var piece: Piece = piece_scene.instantiate()
 	Board.instance.add_child(piece)
 	
+	var is_white = (type == type.to_upper())
+	var mat = StandardMaterial3D.new()
+	if is_white:
+		mat.albedo_color = Color(0.9, 0.9, 0.9) # Quase branco
+	else:
+		mat.albedo_color = Color(0.15, 0.15, 0.15) # Cinza escuro/Preto
+		
+	var mesh_node = piece.get_node_or_null("MeshInstance3D")
+	if mesh_node and mesh_node is MeshInstance3D:
+		mesh_node.material_override = mat
+	
 	# Converte as coordenadas lógicas para o posicionamento 3D local/global
 	var pos_3d = Board.instance.get_position_in_board(coords)
 	if pos_3d != null:
 		piece.global_position = pos_3d
 		piece.board_coordinates = coords
-		
+	
 	# (Futuro) Pode usar a string 'type' para mudar o mesh/material (ex: "K" vs "q")
 
 # ==========================================
