@@ -73,12 +73,29 @@ func create_game(is_private: bool, time_ms: int) -> void:
 	)
 	http.request(Env.api_url + "/v1/games", _get_headers(), HTTPClient.METHOD_POST, JSON.stringify(payload))
 
-# POST /v1/games/{gameId}/join
+# POST /v1/games/join (Para entrada via CÓDIGO de sala privada, sem saber o gameId)
+func join_game_by_code(entry_code: String) -> void:
+	var http := _create_request_node()
+	var payload = {"entryCode": entry_code}
+	
+	http.request_completed.connect(func(_res: int, code: int, _h: PackedStringArray, body_bytes: PackedByteArray):
+		var response = _parse_response(body_bytes)
+		if code == 200:
+			current_game_snapshot = response
+			on_game_joined.emit(true, response)
+		else:
+			on_game_joined.emit(false, response)
+		http.queue_free()
+	)
+	http.request(Env.api_url + "/v1/games/join", _get_headers(), HTTPClient.METHOD_POST, JSON.stringify(payload))
+
+# POST /v1/games/{gameId}/join (Para entrada pública por ID ou privada quando já se tem o gameId)
 func join_game(game_id: String, entry_code: String = "") -> void:
 	var http := _create_request_node()
-	var payload = {}
+	var payload_str = ""
+	
 	if not entry_code.is_empty():
-		payload["entryCode"] = entry_code
+		payload_str = JSON.stringify({"entryCode": entry_code})
 		
 	http.request_completed.connect(func(_res: int, code: int, _h: PackedStringArray, body_bytes: PackedByteArray):
 		var response = _parse_response(body_bytes)
@@ -89,4 +106,4 @@ func join_game(game_id: String, entry_code: String = "") -> void:
 			on_game_joined.emit(false, response)
 		http.queue_free()
 	)
-	http.request(Env.api_url + "/v1/games/" + game_id + "/join", _get_headers(), HTTPClient.METHOD_POST, JSON.stringify(payload))
+	http.request(Env.api_url + "/v1/games/" + game_id + "/join", _get_headers(), HTTPClient.METHOD_POST, payload_str)

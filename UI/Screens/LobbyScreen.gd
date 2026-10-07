@@ -1,7 +1,6 @@
 extends Control
 class_name LobbyScreen
 
-# Referências exportadas (arraste do Inspector)
 @export var background: ColorRect
 @export var title_label: Label
 @export var btn_refresh: Button
@@ -11,28 +10,46 @@ class_name LobbyScreen
 @export var btn_join_code: Button
 
 func _ready() -> void:
+	print("=> [LobbyScreen] Iniciando _ready...")
 	_apply_modern_theme()
 	
 	if btn_refresh: btn_refresh.pressed.connect(_on_refresh_pressed)
 	if btn_create: btn_create.pressed.connect(_on_create_pressed)
 	if btn_join_code: btn_join_code.pressed.connect(_on_join_code_pressed)
 	
+	# Verifica se já não estava conectado antes para evitar bugs de duplicação
+	if not RestClient.on_public_games_fetched.is_connected(_on_games_fetched):
+		RestClient.on_public_games_fetched.connect(_on_games_fetched)
+		
+	if not RestClient.on_game_joined.is_connected(_on_game_joined_result):
+		RestClient.on_game_joined.connect(_on_game_joined_result)
+	
+	print("=> [LobbyScreen] Sinais conectados. Chamando fetch...")
 	_fetch_matches()
 
-# --- Comunicação com o Servidor (Mock) ---
-
 func _fetch_matches() -> void:
-	# Aqui você chamará o seu RestClient. Ex: RestClient.get_rooms()
-	print("Buscando partidas no servidor...")
+	print("=> [LobbyScreen] Solicitando partidas ao RestClient...")
+	RestClient.fetch_public_games()
+
+func _on_games_fetched(success: bool, data: Dictionary) -> void:
+	if not success:
+		print("Erro ao buscar partidas: ", data)
+		_populate_match_list([])
+		return
+		
+	var games = data.get("games", [])
+	var formatted_matches = []
 	
-	# Simulando dados recebidos da API (Mock Data)
-	var mock_api_response = [
-		{"id": "101", "host": "Jogador123", "status": "Aguardando", "players": "1/2"},
-		{"id": "102", "host": "MestreXadrez", "status": "Aguardando", "players": "1/2"},
-		{"id": "103", "host": "Visitante_99", "status": "Em Jogo", "players": "2/2"}
-	]
-	
-	_populate_match_list(mock_api_response)
+	# 3. Mapeia os dados do backend para o formato que a UI espera
+	for g in games:
+		formatted_matches.append({
+			"id": g.get("gameId", ""),
+			"host": g.get("creatorUsername", "Oponente"),
+			"status": g.get("status", "Aguardando"),
+			"players": "1/2" # Normalmente só partidas aguardando são listadas
+		})
+		
+	_populate_match_list(formatted_matches)
 
 func _populate_match_list(matches: Array) -> void:
 	# 1. Limpa a lista atual
@@ -115,24 +132,35 @@ func _on_refresh_pressed() -> void:
 	_fetch_matches()
 
 func _on_create_pressed() -> void:
-	# Agora o botão criar apenas navega para a nova tela
 	Router.navigate_to("CreateRoom")
 
+# Clique no botão 'Entrar' de uma partida da lista pública
 func _on_join_pressed(match_id: String) -> void:
-	print("Tentando entrar na partida: ", match_id)
-	# Exemplo: RestClient.join_room(match_id)
-	# Após o sucesso da API:
-	# Router.navigate_to("GameUI")
+	print("Entrando na sala pública com gameId: ", match_id)
+	RestClient.join_game(match_id)
 
+# Clique no botão 'Entrar com Código'
 func _on_join_code_pressed() -> void:
 	var code = input_code.text.strip_edges()
 	if code.is_empty():
 		print("Por favor, digite um código!")
 		return
 		
-	print("Tentando entrar na sala privada com código: ", code)
-	# Ex: RestClient.join_private_room(code)
-	# Router.navigate_to("GameUI")
+	print("Entrando na sala privada via código: ", code)
+	btn_join_code.disabled = true
+	RestClient.join_game_by_code(code)
+
+func _on_game_joined_result(success: bool, data: Dictionary) -> void:
+	if btn_refresh: btn_refresh.disabled = false
+	if btn_join_code: btn_join_code.disabled = false
+	
+	if success:
+		print("Entrou na partida com sucesso!")
+		# Se sucesso, transita para a tela de jogo
+		Router.navigate_to("GameUI")
+	else:
+		print("Erro ao entrar na sala: ", data)
+		# Opcional: Você pode colocar uma Label na tela para mostrar o erro ao usuário
 
 # --- Estilização Geral da Tela ---
 
