@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://c68gxfddvkpcc"]
+
+[ext_resource type="Script" uid="uid://c872vum0rmatx" path="res://UI/Screens/CreateRoomScreen.gd" id="1_7twkl"]
+
+[node name="Control2" type="Control" unique_id=106551084 node_paths=PackedStringArray("background", "card_panel", "title_label", "opt_difficulty", "check_private", "btn_cancel", "btn_confirm")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7twkl")
+background = NodePath("ColorRect")
+card_panel = NodePath("CenterContainer/PanelContainer")
+title_label = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Label")
+opt_difficulty = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/OptionButton")
+check_private = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/CheckBox")
+btn_cancel = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Button")
+btn_confirm = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Button2")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1694047945]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1883134750]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=793683150]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" unique_id=933476708]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer" unique_id=1047536147]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1008745805]
+layout_mode = 2
+text = "Criar Nova Partida"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1191692354]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=612963660]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=628910866]
+layout_mode = 2
+text = "Dificuldade: "
+
+[node name="OptionButton" type="OptionButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1438637482]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=15778961]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1208421891]
+layout_mode = 2
+text = "Sala Privada: "
+
+[node name="CheckBox" type="CheckBox" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=2068454306]
+layout_mode = 2
+text = "Somente com código"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1032628120]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Button" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=144913159]
+layout_mode = 2
+text = "Cancelar"
+
+[node name="Button2" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=6335407]
+layout_mode = 2
+text = "Criar Sala"

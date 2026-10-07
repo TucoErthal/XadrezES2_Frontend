@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://c7y62p1xhgbps"]
+
+[ext_resource type="Script" uid="uid://bgh43hv66dxl2" path="res://UI/Screens/LoginScreen.gd" id="1_7kfv5"]
+
+[node name="Control" type="Control" unique_id=768632750 node_paths=PackedStringArray("username_input", "login_button", "error_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7kfv5")
+username_input = NodePath("LineEdit")
+login_button = NodePath("Button")
+error_label = NodePath("Label")
+
+[node name="LineEdit" type="LineEdit" parent="." unique_id=96257426]
+layout_mode = 0
+offset_right = 68.5
+offset_bottom = 31.0
+
+[node name="Button" type="Button" parent="." unique_id=1395317043]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="Label" type="Label" parent="." unique_id=1956258777]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

@@ -1,0 +1,77 @@
+name: "PR Manager"
+
+on:
+  pull_request:
+    types: [opened, edited, synchronized]
+
+jobs:
+  validate-and-format:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write # Necessário para editar o título
+      issues: read         # Necessário para buscar a Issue original
+      statuses: write
+    steps:
+      - name: Validar Nome da Branch
+        uses: deepakputhraya/action-branch-name@v1.0.0
+        with:
+          regex: '^(feat|fix|refactor|docs|style|test|chore|ci)/[0-9]+-[a-z0-9-]+$'
+          allowed_prefixes: 'feat,fix,refactor,docs,style,test,chore,ci'
+          ignore_branches: 'main,master,develop'
+
+      - name: Auto-formatar Título (se aberto agora)
+        if: github.event.action == 'opened'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.pull_request.title;
+            // Se o título já foi gerado corretamente pelo Copilot, pula esta etapa
+            if (title.match(/^\[#[0-9]+\] /)) {
+              console.log('Título já está no padrão. Nenhuma formatação necessária.');
+              return;
+            }
+
+            const branchName = context.payload.pull_request.head.ref;
+            const match = branchName.match(/^(feat|fix|refactor|docs|style|test|chore|ci)\/([0-9]+)-(.*)$/);
+            
+            if (!match) return;
+            
+            const [, type, issueId, slug] = match;
+            let cleanTitle = slug.replace(/-/g, ' ');
+            cleanTitle = cleanTitle.charAt(0).toUpperCase() + cleanTitle.slice(1);
+
+            const newTitle = `[#${issueId}] ${cleanTitle}`;
+
+            await github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              title: newTitle
+            });
+            
+            // Pausa de segurança de 3 segundos para a API do GitHub propagar a mudança 
+            // antes do próximo passo de linting testar o título
+            await new Promise(r => setTimeout(r, 3000));
+
+      - name: Validar Título do PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: pullRequest } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            const title = pullRequest.title;
+            const regex = /^\[#[0-9]+\] .+$/;
+
+            if (!regex.test(title)) {
+              core.setFailed(
+                'Título inválido! O título do PR deve seguir exatamente o padrão: ' +
+                '[#ID_ISSUE] Descrição no imperativo. Exemplo: ' +
+                '[#42] Implementa comunicação Backend-IA'
+              );
+            } else {
+              console.log(`Título validado com sucesso: "${title}"`);
+            }

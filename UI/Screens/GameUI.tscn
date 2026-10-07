@@ -1,0 +1,126 @@
+[gd_scene format=3 uid="uid://ce7jaggsiwaff"]
+
+[ext_resource type="Script" uid="uid://cjxprdcfhg8jj" path="res://UI/Screens/GameUI.gd" id="1_script"]
+
+[node name="GameUI" type="Control" unique_id=630384397]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=171959489]
+
+[node name="TopBar" type="Control" parent="HUD" unique_id=1476774317]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 100.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="PlayerPanel" type="PanelContainer" parent="HUD/TopBar" unique_id=476653593]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 220.0
+offset_bottom = 80.0
+
+[node name="Margin" type="MarginContainer" parent="HUD/TopBar/PlayerPanel" unique_id=785515588]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="HUD/TopBar/PlayerPanel/Margin" unique_id=1120057155]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="HUD/TopBar/PlayerPanel/Margin/VBox" unique_id=2058765751]
+layout_mode = 2
+text = "Você"
+horizontal_alignment = 1
+
+[node name="Timer" type="Label" parent="HUD/TopBar/PlayerPanel/Margin/VBox" unique_id=90527908]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "10:00"
+horizontal_alignment = 1
+
+[node name="OpponentPanel" type="PanelContainer" parent="HUD/TopBar" unique_id=763766123]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -220.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 80.0
+grow_horizontal = 0
+
+[node name="Margin" type="MarginContainer" parent="HUD/TopBar/OpponentPanel" unique_id=327674626]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="HUD/TopBar/OpponentPanel/Margin" unique_id=1128345821]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="HUD/TopBar/OpponentPanel/Margin/VBox" unique_id=350245170]
+layout_mode = 2
+text = "Adversário"
+horizontal_alignment = 1
+
+[node name="Timer" type="Label" parent="HUD/TopBar/OpponentPanel/Margin/VBox" unique_id=1628697641]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "10:00"
+horizontal_alignment = 1
+
+[node name="TurnIndicator" type="Label" parent="HUD/TopBar" unique_id=1541646451]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 20.0
+offset_right = 100.0
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Sua Vez"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BottomActions" type="Control" parent="HUD" unique_id=688972169]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -100.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="BtnResign" type="Button" parent="HUD/BottomActions" unique_id=1385680533]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -60.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Desistir"

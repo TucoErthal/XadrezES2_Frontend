@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://baeqvjocgyul5"]
+
+[ext_resource type="Script" uid="uid://dedyutwwaprkb" path="res://Core/Main.gd" id="1_mlbys"]
+
+[node name="Main" type="Node" unique_id=441098059 node_paths=PackedStringArray("level_container", "ui_container")]
+script = ExtResource("1_mlbys")
+level_container = NodePath("LevelContainer")
+ui_container = NodePath("UIContainer")
+
+[node name="LevelContainer" type="Node3D" parent="." unique_id=1837678940]
+
+[node name="UIContainer" type="CanvasLayer" parent="." unique_id=55249920]

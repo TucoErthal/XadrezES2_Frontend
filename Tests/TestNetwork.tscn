@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dhfgqmydsaga"]
+
+[ext_resource type="Script" uid="uid://dmf2yaiwiymut" path="res://Tests/TestNetwork.gd" id="1_l1tbg"]
+
+[node name="Control" type="Node" unique_id=303321256]
+script = ExtResource("1_l1tbg")

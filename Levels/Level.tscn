@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://bji3xgt46glrj"]
+
+[ext_resource type="Shader" uid="uid://s40lgt2teeep" path="res://Levels/Checkerboard.gdshader" id="1_y3x56"]
+[ext_resource type="Script" uid="uid://d0gp0q28qb71u" path="res://Levels/Board.gd" id="2_286st"]
+[ext_resource type="Script" uid="uid://bqyn6ce3lhi6u" path="res://Entities/Player/Player.gd" id="3_ht8ui"]
+[ext_resource type="Script" uid="uid://b2pvdylhbjgav" path="res://Entities/Camera/CameraControls.gd" id="4_n6v67"]
+[ext_resource type="Script" uid="uid://bpjo80s1xeytb" path="res://Levels/GameManager.gd" id="6_q1ycg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_qh0ns"]
+size = Vector3(8, 0.25, 8)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_al0qk"]
+render_priority = 0
+shader = ExtResource("1_y3x56")
+shader_parameter/color_a = Color(0.9, 0.9, 0.9, 1)
+shader_parameter/color_b = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/tiles = 1.0
+
+[node name="Level" type="Node3D" unique_id=597853051]
+
+[node name="Board" type="MeshInstance3D" parent="." unique_id=922747105]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.125, 0)
+mesh = SubResource("BoxMesh_qh0ns")
+surface_material_override/0 = SubResource("ShaderMaterial_al0qk")
+script = ExtResource("2_286st")
+
+[node name="Player" type="Node" parent="." unique_id=1548798471]
+script = ExtResource("3_ht8ui")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1210502260 node_paths=PackedStringArray("focus_node")]
+script = ExtResource("4_n6v67")
+focus_node = NodePath("FocusPoint")
+
+[node name="FocusPoint" type="Marker3D" parent="Camera3D" unique_id=1620064715]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=496781664]
+transform = Transform3D(-3.090862e-08, 0.7071068, -0.7071068, 3.090862e-08, 0.7071068, 0.7071068, 1, 0, -4.3711392e-08, 0, 0, 0)
+
+[node name="GameManager" type="Node" parent="." unique_id=1709977607]
+script = ExtResource("6_q1ycg")
