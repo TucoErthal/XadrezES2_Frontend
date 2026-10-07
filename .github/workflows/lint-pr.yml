@@ -57,11 +57,21 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const title = context.payload.pull_request.title;
+            const { data: pullRequest } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            const title = pullRequest.title;
             const regex = /^\[#[0-9]+\] .+$/;
-            
+
             if (!regex.test(title)) {
-              core.setFailed('Título inválido! O título do PR deve seguir exatamente o padrão: [#ID_ISSUE] Descrição no imperativo. Exemplo: [#42] Implementa comunicação Backend-IA');
+              core.setFailed(
+                'Título inválido! O título do PR deve seguir exatamente o padrão: ' +
+                '[#ID_ISSUE] Descrição no imperativo. Exemplo: ' +
+                '[#42] Implementa comunicação Backend-IA'
+              );
             } else {
-              console.log('Título validado com sucesso!');
+              console.log(`Título validado com sucesso: "${title}"`);
             }
