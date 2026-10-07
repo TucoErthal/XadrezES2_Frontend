@@ -6,8 +6,10 @@ static var all_pieces: Array[Piece] = []
 var visual_mesh: MeshInstance3D
 var board_coordinates: Vector2i = Vector2i.ZERO
 var is_white: bool = true
+var piece_type: String = ""
 
 var _tinted_material: StandardMaterial3D
+var _type_label: Label3D
 
 func _ready() -> void:
 	for child in get_children():
@@ -37,3 +39,26 @@ func select() -> void:
 func deselect() -> void:
 	if visual_mesh != null:
 		visual_mesh.material_override = null
+		
+func setup_type_label(type: String) -> void:
+	piece_type = type
+	
+	if _type_label == null:
+		_type_label = Label3D.new()
+		# Posiciona um pouco acima da caixa da peça (que tem altura 1.0)
+		_type_label.position = Vector3(0, 1.25, 0)
+		# Faz o texto sempre ficar de frente para a câmera de qualquer ângulo
+		_type_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		_type_label.font_size = 48
+		_type_label.outline_size = 10
+		add_child(_type_label)
+	
+	_type_label.text = type
+	
+	# Ajusta as cores do texto e do contorno para garantir bom contraste
+	if is_white:
+		_type_label.modulate = Color.BLACK
+		_type_label.outline_modulate = Color.WHITE
+	else:
+		_type_label.modulate = Color.WHITE
+		_type_label.outline_modulate = Color.BLACK

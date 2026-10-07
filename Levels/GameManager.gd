@@ -61,6 +61,7 @@ func _spawn_piece(type: String, coords: Vector2i) -> void:
 	
 	var is_white = (type == type.to_upper())
 	piece.is_white = is_white
+	piece.setup_type_label(type)
 	var mat = StandardMaterial3D.new()
 	if is_white:
 		mat.albedo_color = Color(0.9, 0.9, 0.9) # Quase branco
