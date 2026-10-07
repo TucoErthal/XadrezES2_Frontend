@@ -2,6 +2,7 @@ extends Node
 
 var session_token: String = ""
 var current_game_snapshot: Dictionary = {} # Guarda os dados da partida atual
+var my_side: String = ""
 
 signal on_login_completed(success: bool, data: Dictionary)
 signal on_game_created(success: bool, data: Dictionary)
@@ -66,6 +67,7 @@ func create_game(is_private: bool, time_ms: int) -> void:
 		var response = _parse_response(body_bytes)
 		if code == 201:
 			current_game_snapshot = response
+			my_side = "WHITE"
 			on_game_created.emit(true, response)
 		else:
 			on_game_created.emit(false, response)
@@ -82,6 +84,7 @@ func join_game_by_code(entry_code: String) -> void:
 		var response = _parse_response(body_bytes)
 		if code == 200:
 			current_game_snapshot = response
+			my_side = "BLACK"
 			on_game_joined.emit(true, response)
 		else:
 			on_game_joined.emit(false, response)

@@ -5,8 +5,8 @@ class_name GameManager
 
 func _ready() -> void:
 	# Conecta aos sinais globais do WebSocket
-	WsClient.game_snapshot.connect(_on_game_snapshot)
-	WsClient.game_move_applied.connect(_on_game_move_applied)
+	WsClient.game_state_updated.connect(_on_game_snapshot)
+	#WsClient.game_move_applied.connect(_on_game_move_applied)
 
 # ==========================================
 # RECONSTRUÇÃO DO TABULEIRO (FEN)

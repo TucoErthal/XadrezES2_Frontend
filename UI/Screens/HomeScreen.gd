@@ -70,12 +70,11 @@ func _apply_modern_theme() -> void:
 # --- Funções de Navegação ---
 
 func _on_pvp_pressed() -> void:
-	Router.navigate_to("Login")
+	Router.navigate_to("Lobby")
 
 func _on_pve_pressed() -> void:
 	print("Iniciando modo JxIA...")
 	# Adicione a navegação futura aqui
-	Router.navigate_to("Lobby")
 	
 func _on_eve_pressed() -> void:
 	print("Iniciando modo IAxIA...")
