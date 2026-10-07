@@ -16,18 +16,18 @@ func _ready() -> void:
 	if btn_cancel: btn_cancel.pressed.connect(_on_cancel_pressed)
 	if btn_mock_join: btn_mock_join.pressed.connect(_on_mock_join_pressed)
 	
-	# Pega os dados da sala criada
 	var snap = RestClient.current_game_snapshot
 	var game_id = snap.get("gameId", "")
 	var code = snap.get("entryCode", "")
 	
 	if snap.get("visibility") == "PUBLIC":
-		_set_room_code("PÚBLICA (Sem Código)")
-		btn_copy.disabled = true
+		if input_code:
+			var container = input_code.get_parent().get_parent()
+			if container:
+				container.visible = false
 	else:
 		_set_room_code(code if code != null else "ERRO")
 		
-	# Conecta no WebSocket para ouvir quando o P2 entrar
 	WsClient.game_became_active.connect(_on_game_started, CONNECT_ONE_SHOT)
 	WsClient.connect_and_subscribe(game_id)
 
