@@ -16,31 +16,35 @@ func _ready() -> void:
 	if btn_cancel: btn_cancel.pressed.connect(_on_cancel_pressed)
 	if btn_confirm: btn_confirm.pressed.connect(_on_confirm_pressed)
 
+var tempos_ms = [0, 600000, 3600000] # 0=Sem limite, 10 min, 60 min (conforme API)
+
 func _populate_options() -> void:
 	if opt_difficulty:
-		opt_difficulty.add_item("Fácil")
-		opt_difficulty.add_item("Médio")
-		opt_difficulty.add_item("Difícil")
+		opt_difficulty.clear()
+		opt_difficulty.add_item("Sem limite de tempo")
+		opt_difficulty.add_item("Rápida (10 minutos)")
+		opt_difficulty.add_item("Clássica (60 minutos)")
+
+func _on_confirm_pressed() -> void:
+	btn_confirm.disabled = true
+	var time_ms = tempos_ms[opt_difficulty.selected]
+	var is_private = check_private.button_pressed
+	
+	# Conecta temporariamente para ouvir a resposta
+	RestClient.on_game_created.connect(_on_api_created, CONNECT_ONE_SHOT)
+	print(is_private, time_ms)
+	RestClient.create_game(is_private, time_ms)
+
+func _on_api_created(success: bool, _data: Dictionary) -> void:
+	btn_confirm.disabled = false
+	if success:
+		Router.navigate_to("WaitingRoom")
+	else:
+		print("Erro ao criar sala!", _data)
 
 func _on_cancel_pressed() -> void:
 	# Volta para o Lobby
 	Router.navigate_to("Lobby")
-
-func _on_confirm_pressed() -> void:
-	# Coleta os dados configurados
-	var diff_selected = opt_difficulty.get_item_text(opt_difficulty.selected)
-	var is_private = check_private.button_pressed
-	
-	print("Solicitando criação de sala:")
-	print("- Dificuldade: ", diff_selected)
-	print("- Privada: ", is_private)
-	
-	# Aqui você chama a API:
-	# var response = await RestClient.create_room(diff_selected, is_private)
-	# if response.success:
-	#     Se for privada, você pode mostrar um popup com o código gerado, 
-	#     ou já pular para a GameUI com um painel de "Aguardando Oponente".
-	Router.navigate_to("WaitingRoom")
 
 func _apply_modern_theme() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)

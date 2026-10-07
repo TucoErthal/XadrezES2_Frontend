@@ -16,34 +16,38 @@ func _ready() -> void:
 	if btn_cancel: btn_cancel.pressed.connect(_on_cancel_pressed)
 	if btn_mock_join: btn_mock_join.pressed.connect(_on_mock_join_pressed)
 	
-	# Simula o recebimento de um código da API
-	_set_room_code("XYZ-1234")
+	# Pega os dados da sala criada
+	var snap = RestClient.current_game_snapshot
+	var game_id = snap.get("gameId", "")
+	var code = snap.get("entryCode", "")
 	
-	# Aqui você iniciaria um "Polling" (consultar a API de X em X segundos)
-	# ou aguardaria um evento de WebSocket para saber quando o outro jogador entrou.
+	if snap.get("visibility") == "PUBLIC":
+		_set_room_code("PÚBLICA (Sem Código)")
+		btn_copy.disabled = true
+	else:
+		_set_room_code(code if code != null else "ERRO")
+		
+	# Conecta no WebSocket para ouvir quando o P2 entrar
+	WsClient.game_became_active.connect(_on_game_started, CONNECT_ONE_SHOT)
+	WsClient.connect_and_subscribe(game_id)
+
+func _on_game_started() -> void:
+	print("Oponente entrou! A partida é ACTIVE.")
+	Router.navigate_to("GameUI")
 
 func _set_room_code(code: String) -> void:
-	if input_code:
-		input_code.text = code
+	if input_code: input_code.text = code
 
 func _on_copy_pressed() -> void:
-	# Copia o texto para a área de transferência do Sistema Operacional
 	DisplayServer.clipboard_set(input_code.text)
 	btn_copy.text = "Copiado!"
-	
-	# Volta o texto para "Copiar" após 2 segundos
 	await get_tree().create_timer(2.0).timeout
 	if btn_copy: btn_copy.text = "Copiar"
 
 func _on_cancel_pressed() -> void:
-	print("Cancelando sala...")
-	# Exemplo: RestClient.cancel_room(input_code.text)
 	Router.navigate_to("Lobby")
 
 func _on_mock_join_pressed() -> void:
-	# Este botão serve apenas para testar a navegação.
-	# Quando o WebSocket/API avisar que o jogador 2 entrou, você chama esta mesma rota.
-	print("Oponente conectado! Iniciando partida...")
 	Router.navigate_to("GameUI")
 
 func _apply_modern_theme() -> void:
