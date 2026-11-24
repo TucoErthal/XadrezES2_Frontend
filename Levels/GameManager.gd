@@ -69,8 +69,8 @@ func _spawn_piece(type: String, coords: Vector2i) -> void:
 		mat.albedo_color = Color(0.15, 0.15, 0.15) # Cinza escuro/Preto
 		
 	var mesh_node = piece.get_node_or_null("MeshInstance3D")
-	if mesh_node and mesh_node is MeshInstance3D:
-		mesh_node.set_surface_override_material(0, mat)
+	# if mesh_node and mesh_node is MeshInstance3D:
+		# mesh_node.set_surface_override_material(0, mat)
 	
 	# Converte as coordenadas lógicas para o posicionamento 3D local/global
 	var pos_3d = Board.instance.get_position_in_board(coords)
