@@ -1,12 +1,22 @@
 extends Node
 class_name GameManager
 
+## Liga o tabuleiro 3D ao estado da partida.
+##
+## O snapshot do servidor é a fonte da verdade: a cada `game.state` o tabuleiro
+## é reconstruído a partir da FEN. As regras locais (ChessRules) servem só para
+## destacar os lances legais e evitar enviar um lance obviamente ilegal — quem
+## decide é o backend.
+
 @export var piece_scene: PackedScene = preload("res://Entities/Pieces/Piece.tscn")
 
+var state: Dictionary = {}            # posição atual (ChessRules)
+var my_side: String = ""              # "w" / "b"
+var is_my_turn: bool = false
+var game_status: String = ""
+
 func _ready() -> void:
-	# Conecta aos sinais globais do WebSocket
 	WsClient.game_state_updated.connect(_on_game_snapshot)
-	#WsClient.game_move_applied.connect(_on_game_move_applied)
 	call_deferred("_check_initial_snapshot")
 
 func _check_initial_snapshot() -> void:
@@ -15,51 +25,62 @@ func _check_initial_snapshot() -> void:
 	_setup_camera()
 
 func _setup_camera() -> void:
-	var camera = get_viewport().get_camera_3d()
+	var camera := get_viewport().get_camera_3d()
 	if camera and camera is CameraControls:
-		# Como o padrão (0.0) olhava do lado das Pretas, giramos 180° (PI) para as Brancas
+		# O padrão (0.0) olha do lado das Pretas; giramos 180° para as Brancas.
 		if RestClient.my_side == "WHITE":
 			camera._target_yaw = PI
 			camera._current_yaw = PI
 		else:
 			camera._target_yaw = 0.0
 			camera._current_yaw = 0.0
-# ==========================================
+
+# ==========================================================================
 # RECONSTRUÇÃO DO TABULEIRO (FEN)
-# ==========================================
+# ==========================================================================
+
 func _on_game_snapshot(payload: Dictionary) -> void:
-	# 1. Pega o dicionário 'position' e depois extrai o 'fen' dele
+	game_status = payload.get("status", "")
+
 	var position_data = payload.get("position")
 	if typeof(position_data) != TYPE_DICTIONARY:
 		return
-		
-	var fen = position_data.get("fen", "")
+	var fen: String = position_data.get("fen", "")
 	if fen.is_empty():
 		return
-		
-	print("Snapshot recebido. Reconstruindo tabuleiro: ", fen)
-	
-	# 2. Destruir as peças antigas do tabuleiro
+
+	var parsed := ChessRules.from_fen(fen)
+	if parsed.is_empty():
+		printerr("FEN inválida recebida do servidor: ", fen)
+		return
+	state = parsed
+
+	if my_side.is_empty() and not RestClient.my_side.is_empty():
+		my_side = ChessRules.side_from_contract(RestClient.my_side)
+	is_my_turn = (ChessRules.side_to_move(state) == my_side)
+
+	_rebuild_pieces()
+
+func _rebuild_pieces() -> void:
 	for piece in Piece.all_pieces.duplicate():
 		piece.queue_free()
-		
-	# Espera um frame para garantir a limpeza na engine
 	await get_tree().process_frame
-	
-	# 3. Usa o seu ChessNotation.gd para instanciar!
-	var pieces_data = ChessNotation.parse_fen_board(fen)
-	for data in pieces_data:
-		_spawn_piece(data["piece"], data["pos"])
+
+	for y in range(8):
+		for x in range(8):
+			var code: String = ChessRules.piece_at(state, Vector2i(x, y))
+			if code != "":
+				_spawn_piece(code, Vector2i(x, y))
 
 func _spawn_piece(type: String, coords: Vector2i) -> void:
 	if Board.instance == null:
 		printerr("Board não instanciado!")
 		return
-		
+
 	var piece: Piece = piece_scene.instantiate()
 	Board.instance.add_child(piece)
-	
-	var is_white = (type == type.to_upper())
+
+	var is_white := (type == type.to_upper())
 	piece.is_white = is_white
 	piece.setup_type_label(type)
 	var mat = StandardMaterial3D.new()
@@ -77,37 +98,7 @@ func _spawn_piece(type: String, coords: Vector2i) -> void:
 	if pos_3d != null:
 		piece.global_position = pos_3d
 		piece.board_coordinates = coords
-	
-	# (Futuro) Pode usar a string 'type' para mudar o mesh/material (ex: "K" vs "q")
 
-# ==========================================
-# APLICAÇÃO DE JOGADAS
-# ==========================================
-func _on_game_move_applied(payload: Dictionary) -> void:
-	var from_uci = payload.get("from", "")
-	var to_uci = payload.get("to", "")
-	
-	if from_uci.is_empty() or to_uci.is_empty():
-		return
-		
-	var from_coords = ChessNotation.uci_to_pos(from_uci)
-	var to_coords = ChessNotation.uci_to_pos(to_uci)
-	
-	# 1. Verifica se existe uma peça na casa destino para capturar (remover)
-	var captured_piece = _get_piece_at(to_coords)
-	if captured_piece != null:
-		captured_piece.queue_free()
-		
-	# 2. Move fisicamente a peça de origem para a casa de destino
-	var moved_piece = _get_piece_at(from_coords)
-	if moved_piece != null:
-		var dest_3d = Board.instance.get_position_in_board(to_coords)
-		if dest_3d != null:
-			# Em jogos reais, você pode usar um Tween aqui para animar o movimento
-			moved_piece.global_position = dest_3d
-			moved_piece.board_coordinates = to_coords
-
-# Busca uma peça registrada na posição lógica específica
 func _get_piece_at(coords: Vector2i) -> Piece:
 	for piece in Piece.all_pieces:
 		if piece.board_coordinates == coords:
