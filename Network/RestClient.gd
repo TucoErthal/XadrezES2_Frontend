@@ -104,6 +104,7 @@ func join_game(game_id: String, entry_code: String = "") -> void:
 		var response = _parse_response(body_bytes)
 		if code == 200:
 			current_game_snapshot = response
+			my_side = "BLACK" # quem entra numa partida é sempre as Pretas
 			on_game_joined.emit(true, response)
 		else:
 			on_game_joined.emit(false, response)
