@@ -83,13 +83,17 @@ func _spawn_piece(type: String, coords: Vector2i) -> void:
 	var is_white := (type == type.to_upper())
 	piece.is_white = is_white
 	piece.setup_type_label(type)
-
-	var mat := StandardMaterial3D.new()
-	mat.albedo_color = Color(0.9, 0.9, 0.9) if is_white else Color(0.15, 0.15, 0.15)
-	var mesh_node := piece.get_node_or_null("MeshInstance3D")
-	if mesh_node and mesh_node is MeshInstance3D:
-		mesh_node.set_surface_override_material(0, mat)
-
+	var mat = StandardMaterial3D.new()
+	if is_white:
+		mat.albedo_color = Color(0.9, 0.9, 0.9) # Quase branco
+	else:
+		mat.albedo_color = Color(0.15, 0.15, 0.15) # Cinza escuro/Preto
+		
+	var mesh_node = piece.get_node_or_null("MeshInstance3D")
+	# if mesh_node and mesh_node is MeshInstance3D:
+		# mesh_node.set_surface_override_material(0, mat)
+	
+	# Converte as coordenadas lógicas para o posicionamento 3D local/global
 	var pos_3d = Board.instance.get_position_in_board(coords)
 	if pos_3d != null:
 		piece.global_position = pos_3d
