@@ -1,0 +1,345 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://bs0468wl1506i"
+path="res://.godot/imported/chess.glb-650ffbd7c09f6a5bd66762c94195e0a0.scn"
+
+[deps]
+
+source_file="res://Assets/chess.glb"
+dest_files=["res://.godot/imported/chess.glb-650ffbd7c09f6a5bd66762c94195e0a0.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/root_script=null
+mesh_library/use_node_names_as_mesh_names=false
+array_mesh/deduplicate_surfaces=true
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+nodes/import_as_skeleton_bones=false
+nodes/use_name_suffixes=true
+nodes/use_node_type_suffixes=true
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+animation/import_rest_as_RESET=false
+import_script/path=""
+materials/extract=2
+materials/extract_format=0
+materials/extract_path=""
+_subresources={
+"meshes": {
+"chess_Cube": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/Board.res",
+"save_to_file/path": "uid://cs562ewonfn0m"
+},
+"chess_Vert": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/qw.res",
+"save_to_file/path": "uid://c743b2j5ps7v3"
+},
+"chess_Vert_001": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/kw.res",
+"save_to_file/path": "uid://jsp0c7vcj1nf"
+},
+"chess_Vert_002": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/b2w.res",
+"save_to_file/path": "uid://dnkmk2awoonme"
+},
+"chess_Vert_003": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/n1w.res",
+"save_to_file/path": "uid://dbxmmtush83ws"
+},
+"chess_Vert_004": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/r1w.res",
+"save_to_file/path": "uid://bl40v18vgxcvr"
+},
+"chess_Vert_005": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/p1w.res",
+"save_to_file/path": "uid://bgld343v6pgqt"
+},
+"chess_Vert_006": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/qb.res",
+"save_to_file/path": "uid://c6v3s6e7c6dv7"
+},
+"chess_Vert_007": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/kb.res",
+"save_to_file/path": "uid://dgpjkuv6ef5dj"
+},
+"chess_Vert_008": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/b1b.res",
+"save_to_file/path": "uid://cqmbwelldrxy6"
+},
+"chess_Vert_009": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/n1b.res",
+"save_to_file/path": "uid://bm3u6wc8swtdy"
+},
+"chess_Vert_010": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/r1b.res",
+"save_to_file/path": "uid://68hj4i4gc6ew"
+},
+"chess_Vert_011": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/p1b.res",
+"save_to_file/path": "uid://dkmdpwiym3nce"
+},
+"chess_Vert_012": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/p2b.res",
+"save_to_file/path": "uid://bo5sdya3ipg0a"
+},
+"chess_Vert_013": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/n2b.res",
+"save_to_file/path": "uid://bddawdxaodwqe"
+},
+"chess_Vert_015": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/r2b.res",
+"save_to_file/path": "uid://c5ae8ynlhf4q0"
+},
+"chess_Vert_016": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/b2b.res",
+"save_to_file/path": "uid://ciceg2m0j778v"
+},
+"chess_Vert_017": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/p4b.res",
+"save_to_file/path": "uid://d3toxui51b1dm"
+},
+"chess_Vert_018": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/p5b.res",
+"save_to_file/path": "uid://btmr5uupqynh3"
+},
+"chess_Vert_019": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/p6b.res",
+"save_to_file/path": "uid://cx165ndsyqlqr"
+},
+"chess_Vert_020": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/p7b.res",
+"save_to_file/path": "uid://bbxnsk70nm6kt"
+},
+"chess_Vert_021": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/p8b.res",
+"save_to_file/path": "uid://ducpwssj12nfk"
+},
+"chess_Vert_022": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/p3b.res",
+"save_to_file/path": "uid://c01weoibttbee"
+},
+"chess_Vert_023": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/b1w.res",
+"save_to_file/path": "uid://cqxd8sv4kaga"
+},
+"chess_Vert_024": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/r2w.res",
+"save_to_file/path": "uid://dwfgbs6r3qhsh"
+},
+"chess_Vert_025": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/n2w.res",
+"save_to_file/path": "uid://be2rs4uesk73l"
+},
+"chess_Vert_026": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/p2w.res",
+"save_to_file/path": "uid://d3cfpbs3po26w"
+},
+"chess_Vert_027": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/p3w.res",
+"save_to_file/path": "uid://cm0ebusrni7hb"
+},
+"chess_Vert_028": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/p4w.res",
+"save_to_file/path": "uid://cnbu0483n1ojr"
+},
+"chess_Vert_029": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/p5w.res",
+"save_to_file/path": "uid://dqps2pgaigeby"
+},
+"chess_Vert_030": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/p6w.res",
+"save_to_file/path": "uid://cnp6c02tpif12"
+},
+"chess_Vert_031": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/p7w.res",
+"save_to_file/path": "uid://c6nadeho7537n"
+},
+"chess_Vert_032": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://Assets/Marble/p8w.res",
+"save_to_file/path": "uid://gljpvyfo35rl"
+}
+}
+}
+gltf/naming_version=2
+gltf/embedded_image_handling=1
+gltf/texture_map_mode=1

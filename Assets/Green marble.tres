@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://tdh0vimusmt8"]
+
+[ext_resource type="Texture2D" uid="uid://yjnoi103dk12" path="res://Assets/chess_green marble_BaseColor.jpg" id="1_tvvjh"]
+[ext_resource type="Texture2D" uid="uid://bl73uttp7nhjr" path="res://Assets/chess_green marble_Metallic.jpg-green marble_Roughness.png" id="2_1no4m"]
+[ext_resource type="Texture2D" uid="uid://cxc5xxe7ats64" path="res://Assets/chess_green marble_Normal.jpg" id="3_flw6j"]
+
+[resource]
+resource_name = "Green marble"
+cull_mode = 2
+albedo_texture = ExtResource("1_tvvjh")
+metallic = 1.0
+metallic_texture = ExtResource("2_1no4m")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_1no4m")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_flw6j")
+uv1_scale = Vector3(0.26, 0.26, 1)
+uv1_offset = Vector3(0, 0.74, 0)
+metadata/_gltf_primary_texture_coord = 1
