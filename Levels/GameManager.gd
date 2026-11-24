@@ -23,6 +23,13 @@ enum InputState {
 
 const NO_SQUARE := Vector2i(-1, -1)
 
+const COLOR_SELECTED := Color(0.20, 0.60, 0.95, 0.75)
+const COLOR_MOVE := Color(0.10, 0.80, 0.45, 0.55)
+const COLOR_CAPTURE := Color(0.95, 0.35, 0.25, 0.60)
+const COLOR_LAST_MOVE := Color(0.95, 0.80, 0.20, 0.35)
+const COLOR_CHECK := Color(0.95, 0.15, 0.15, 0.70)
+const MARKER_HEIGHT := 0.01           # acima da face do tabuleiro, para não sumir nela
+
 var state: Dictionary = {}            # posição atual (ChessRules)
 var my_side: String = ""              # "w" / "b"
 var is_my_turn: bool = false
@@ -33,6 +40,8 @@ var _selected: Vector2i = NO_SQUARE
 var _targets: Array[Vector2i] = []    # casas oferecidas para a peça selecionada
 var _pending_promotion: Dictionary = {}
 var _last_fen: String = ""
+var _last_move_uci: String = ""       # do snapshot do servidor
+var _markers: Node3D
 
 ## Um peão chegou à última fileira: a UI deve perguntar a peça e responder com
 ## confirm_promotion() ou cancel_promotion(). Sem ninguém conectado, promove
@@ -48,6 +57,11 @@ func _ready() -> void:
 	call_deferred("_check_initial_snapshot")
 
 func _check_initial_snapshot() -> void:
+	_markers = Node3D.new()
+	_markers.name = "Highlights"
+	if Board.instance != null:
+		Board.instance.add_child(_markers)
+
 	if not RestClient.current_game_snapshot.is_empty():
 		_on_game_snapshot(RestClient.current_game_snapshot)
 	_setup_camera()
@@ -86,8 +100,7 @@ func _square_under_mouse(screen_pos: Vector2) -> Vector2i:
 	if camera == null or Board.instance == null:
 		return NO_SQUARE
 
-	var top := Board.instance.to_global(Vector3(0, Board.instance.get_aabb().end.y, 0))
-	var plane := Plane(Board.instance.global_transform.basis.y.normalized(), top)
+	var plane := Plane(Board.instance.global_transform.basis.y.normalized(), _board_top())
 	var hit = plane.intersects_ray(camera.project_ray_origin(screen_pos), camera.project_ray_normal(screen_pos))
 	if hit == null:
 		return NO_SQUARE
@@ -96,6 +109,10 @@ func _square_under_mouse(screen_pos: Vector2) -> Vector2i:
 	if coords.x < 0 or coords.x > 7 or coords.y < 0 or coords.y > 7:
 		return NO_SQUARE
 	return coords
+
+## Ponto (global) na altura da face de cima do tabuleiro.
+func _board_top() -> Vector3:
+	return Board.instance.to_global(Vector3(0, Board.instance.get_aabb().end.y, 0))
 
 func _handle_click(coords: Vector2i) -> void:
 	if _input_state == InputState.AWAITING or not _pending_promotion.is_empty():
@@ -142,17 +159,14 @@ func _select(coords: Vector2i) -> void:
 	_selected = coords
 	_targets = _candidate_targets(coords)
 	_input_state = InputState.SELECTED
-	var piece := _get_piece_at(coords)
-	if piece:
-		piece.select()
+	_refresh_highlights()
 
 func _clear_selection() -> void:
-	for piece in Piece.all_pieces:
-		piece.deselect()
 	_selected = NO_SQUARE
 	_targets = []
 	_pending_promotion = {}
 	_input_state = InputState.IDLE
+	_refresh_highlights()
 
 func _try_move(from: Vector2i, to: Vector2i) -> void:
 	var uci := ChessNotation.pos_to_uci(from) + ChessNotation.pos_to_uci(to)
@@ -213,6 +227,8 @@ func _on_game_snapshot(payload: Dictionary) -> void:
 		return
 	state = parsed
 	_last_fen = fen
+	var last_move = position_data.get("lastMoveUci")
+	_last_move_uci = str(last_move) if last_move != null else ""
 
 	if my_side.is_empty() and not RestClient.my_side.is_empty():
 		my_side = ChessRules.side_from_contract(RestClient.my_side)
@@ -264,3 +280,79 @@ func _get_piece_at(coords: Vector2i) -> Piece:
 		if piece.board_coordinates == coords:
 			return piece
 	return null
+
+# ==========================================================================
+# DESTAQUES
+# ==========================================================================
+
+## Redesenha todas as marcações a partir do estado atual: último lance, rei em
+## xeque, casa selecionada e destinos oferecidos.
+func _refresh_highlights() -> void:
+	if _markers == null:
+		return
+	for child in _markers.get_children():
+		_markers.remove_child(child)
+		child.queue_free()
+
+	# Uma marcação por casa (planos sobrepostos piscam); a última atribuição vence.
+	var colors := {}
+	if _last_move_uci.length() >= 4:
+		colors[ChessNotation.uci_to_pos(_last_move_uci.substr(0, 2))] = COLOR_LAST_MOVE
+		colors[ChessNotation.uci_to_pos(_last_move_uci.substr(2, 2))] = COLOR_LAST_MOVE
+
+	var king := _king_in_check()
+	if king != NO_SQUARE:
+		colors[king] = COLOR_CHECK
+
+	if _selected != NO_SQUARE:
+		for to in _targets:
+			colors[to] = COLOR_CAPTURE if _is_capture(_selected, to) else COLOR_MOVE
+		colors[_selected] = COLOR_SELECTED
+
+	for coords in colors:
+		_add_marker(coords, colors[coords])
+
+## Casa vazia também é captura quando um peão anda na diagonal (en passant).
+func _is_capture(from: Vector2i, to: Vector2i) -> bool:
+	if ChessRules.piece_at(state, to) != "":
+		return true
+	return ChessRules.piece_at(state, from).to_lower() == "p" and from.x != to.x
+
+## Casa do rei da vez se ele estiver em xeque, ou NO_SQUARE.
+##
+## TEMPORÁRIO: usa as regras locais (ChessRules); o snapshot do servidor ainda
+## não informa xeque.
+func _king_in_check() -> Vector2i:
+	if state.is_empty():
+		return NO_SQUARE
+	var side := ChessRules.side_to_move(state)
+	if not ChessRules.in_check(state, side):
+		return NO_SQUARE
+	var king := "K" if side == "w" else "k"
+	for y in range(8):
+		for x in range(8):
+			if ChessRules.piece_at(state, Vector2i(x, y)) == king:
+				return Vector2i(x, y)
+	return NO_SQUARE
+
+func _add_marker(coords: Vector2i, color: Color) -> void:
+	if Board.instance == null or coords.x < 0:
+		return
+	var pos_3d = Board.instance.get_position_in_board(coords)
+	if pos_3d == null:
+		return
+
+	var plane := PlaneMesh.new()
+	plane.size = Vector2(0.9, 0.9)
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = color
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+
+	var marker := MeshInstance3D.new()
+	marker.mesh = plane
+	marker.material_override = mat
+	marker.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	marker.set_meta("coords", coords)
+	_markers.add_child(marker)
+	marker.global_position = Vector3(pos_3d.x, _board_top().y + MARKER_HEIGHT, pos_3d.z)
