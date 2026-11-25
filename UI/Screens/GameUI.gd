@@ -21,6 +21,9 @@ class_name GameUI
 @onready var lbl_game_over_reason: Label = $HUD/GameOverOverlay/Center/CardPanel/Margin/VBox/Reason
 @onready var btn_exit_match: Button = $HUD/GameOverOverlay/Center/CardPanel/Margin/VBox/BtnExitMatch
 
+@onready var player_panel: PanelContainer = $HUD/TopBar/PlayerPanel
+@onready var opponent_panel: PanelContainer = $HUD/TopBar/OpponentPanel
+
 const DEFAULT_RESIGN_MSG := "Se você abandonar agora, a partida será encerrada e contará como derrota."
 
 const REASON_LABELS := {
@@ -284,50 +287,28 @@ func _on_exit_match_pressed() -> void:
 # ==========================================================================
 
 func _apply_theme() -> void:
-	var panel_style = StyleBoxFlat.new()
-	panel_style.bg_color = Color(0.1, 0.1, 0.15, 0.8)
-	panel_style.corner_radius_top_left = 8
-	panel_style.corner_radius_top_right = 8
-	panel_style.corner_radius_bottom_left = 8
-	panel_style.corner_radius_bottom_right = 8
+	UITheme.apply_font(self)
 
-	$HUD/TopBar/PlayerPanel.add_theme_stylebox_override("panel", panel_style)
-	$HUD/TopBar/OpponentPanel.add_theme_stylebox_override("panel", panel_style)
+	if player_panel:
+		UITheme.style_card(player_panel)
+	if opponent_panel:
+		UITheme.style_card(opponent_panel)
+	if resign_card_panel:
+		UITheme.style_card(resign_card_panel)
+	if game_over_card_panel:
+		UITheme.style_card(game_over_card_panel)
 
-	# Card dos popups (mesmo padrão do CreateRoomScreen e WaitingRoomScreen)
-	var card_style = StyleBoxFlat.new()
-	card_style.bg_color = Color("#22222d")
-	card_style.corner_radius_top_left = 16
-	card_style.corner_radius_top_right = 16
-	card_style.corner_radius_bottom_left = 16
-	card_style.corner_radius_bottom_right = 16
-	card_style.border_width_left = 2
-	card_style.border_width_top = 2
-	card_style.border_width_right = 2
-	card_style.border_width_bottom = 2
-	card_style.border_color = Color("#3a3a4a")
+	if lbl_turn:
+		UITheme.style_title(lbl_turn, false)
 
-	resign_card_panel.add_theme_stylebox_override("panel", card_style)
-	game_over_card_panel.add_theme_stylebox_override("panel", card_style)
-
-	# Botão vermelho (Abandonar)
-	var danger_style = _make_button_style(Color("#991b1b"))
-	btn_resign.add_theme_stylebox_override("normal", danger_style)
-	btn_resign.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	btn_confirm_resign.add_theme_stylebox_override("normal", danger_style)
-	btn_confirm_resign.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-
-	# Botão cinza (Continuar)
-	var secondary_style = _make_button_style(Color("#3a3a4a"))
-	btn_cancel_resign.add_theme_stylebox_override("normal", secondary_style)
-	btn_cancel_resign.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-
-	# Botão azul (Sair da Partida)
-	var primary_style = _make_button_style(Color("#3d73ff"))
-	btn_exit_match.add_theme_stylebox_override("normal", primary_style)
-	btn_exit_match.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-
-	lbl_game_over_reason.add_theme_color_override("font_color", Color("#a1a1aa"))
+	if btn_resign:
+		UITheme.style_button(btn_resign, "danger")
+	if btn_cancel_resign:
+		UITheme.style_button(btn_cancel_resign, "secondary")
+	if btn_confirm_resign:
+		UITheme.style_button(btn_confirm_resign, "danger")
+	if btn_exit_match:
+		UITheme.style_button(btn_exit_match, "gold")
 
 func _make_button_style(bg_color: Color) -> StyleBoxFlat:
 	var style = StyleBoxFlat.new()

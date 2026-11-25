@@ -43,12 +43,11 @@ alignment = 1
 
 [node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1933184861]
 layout_mode = 2
-text = "Nome Temporário"
+text = "XadrES2"
 label_settings = SubResource("LabelSettings_abddq")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
-uppercase = true
 
 [node name="Button" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1651237869]
 layout_mode = 2
