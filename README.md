@@ -4,7 +4,7 @@ Frontend do projeto XadrezES2, desenvolvido em Godot com GDScript. O projeto ofe
 
 ## Release
 
-Esta documentação corresponde à release **v0.2.0**.
+Esta documentação corresponde à release **v0.3.0**.
 
 ## Objetivo
 
@@ -20,7 +20,7 @@ O objetivo do frontend é fornecer a experiência visual e interativa do jogo, i
 
 ## Estado atual
 
-Na release `v0.2.0`, o projeto conta com:
+Na release `v0.3.0`, o projeto conta com:
 
 - migração dos scripts principais de C# para GDScript;
 - gerenciador central de rotas e carregamento de telas;
@@ -29,10 +29,15 @@ Na release `v0.2.0`, o projeto conta com:
 - cliente WebSocket para atualização do estado da partida;
 - sincronização do tabuleiro a partir de posições FEN recebidas do backend;
 - tabuleiro 3D com câmera orbital, zoom e movimentação panorâmica;
-- seleção visual de peças e identificação das peças no tabuleiro;
+- seleção visual de peças e destaque de movimentos válidos e capturas;
+- destaque do último lance e do rei em xeque;
+- envio de lances por clique e fluxo de promoção de peões;
+- partidas contra a IA e modo de observação IA x IA;
+- popup de confirmação de abandono e fluxo de encerramento da partida;
+- efeitos sonoros para capturas e xeque;
+- tema visual moderno aplicado às telas do jogo;
+- sandbox local com cenários de jogo e testes automatizados do frontend;
 - configuração de ambiente por meio do arquivo `env.cfg`.
-
-A aplicação ainda está em desenvolvimento. Algumas regras completas do xadrez, validações de jogadas e o fluxo definitivo de aplicação de movimentos dependem da integração e da evolução do backend.
 
 ## Requisitos
 
@@ -52,7 +57,7 @@ cd XadrezES2_Frontend
 Para executar exatamente o código desta release:
 
 ```bash
-git checkout v0.2.0
+git checkout v0.3.0
 ```
 
 ### 2. Configurar o ambiente
@@ -92,13 +97,33 @@ Os controles são configurados no arquivo `project.godot` e podem ser alterados 
 - **Movimentação da câmera:** ação `camera_pan` + movimento do mouse;
 - **Seleção:** ação `select`.
 
+## Sandbox e testes
+
+O projeto inclui um sandbox para executar e validar comportamentos do jogo sem depender do backend:
+
+- Execute `Tests/sandbox_test.tscn` no Godot para simular partidas locais;
+- Execute `Tests/Run_tests.tscn` para verificar o gerenciador de partidas, destaques, promoção, erros e encerramento.
+
+No sandbox, use as seguintes teclas:
+
+- **F1:** reiniciar a posição inicial;
+- **F2:** carregar cenário de promoção;
+- **F3:** carregar cenário de xeque;
+- **F4:** carregar cenário de roque ou captura en passant;
+- **F5:** fazer o próximo lance ser recusado;
+- **F6:** finalizar a partida.
+
 ## Estrutura principal
 
 ```text
 Core/                  Inicialização e roteamento da aplicação
-Entities/              Câmera, jogador e peças
+Entities/              Câmera e peças
 Levels/                Tabuleiro, cena do jogo e gerenciamento da partida
 UI/                    Telas e componentes da interface
+Assets/                Texturas, modelos e efeitos sonoros
+Tests/                 Sandbox e testes do frontend
+Utils/                 Regras e utilidades de xadrez
+docs/                  Contratos e documentação técnica
 Env.gd                 Configuração de API e WebSocket
 project.godot          Configuração do projeto e ações de entrada
 ```
