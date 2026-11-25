@@ -247,7 +247,7 @@ func _on_game_snapshot(payload: Dictionary) -> void:
 ## esvazia antes de instanciar, sem precisar esperar o quadro seguinte.
 func _rebuild_pieces() -> void:
 	for piece in Piece.all_pieces.duplicate():
-		var pai := piece.get_parent()
+		var pai: Node = piece.get_parent()
 		if pai != null:
 			pai.remove_child(piece)
 		piece.queue_free()
