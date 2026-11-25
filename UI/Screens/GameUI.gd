@@ -45,6 +45,7 @@ var player_time_ms: float = 0.0
 var opponent_time_ms: float = 0.0
 var is_game_active: bool = false
 var _waiting_resign_response: bool = false
+var _observando: bool = false        # sessao sem lado proprio: assiste IA x IA
 
 func _ready() -> void:
 	_apply_theme()
@@ -64,6 +65,7 @@ func _ready() -> void:
 
 	var snap = RestClient.current_game_snapshot
 	_sync_with_snapshot(snap)
+	_configurar_observador(snap)
 
 	var game_id = snap.get("gameId", "")
 	if not game_id.is_empty():
@@ -171,7 +173,36 @@ func _format_ms_to_clock(ms: int) -> String:
 # Abandonar / Desistir da partida
 # ==========================================================================
 
+## Em AI_VS_AI a sessao nao tem lado: nao ha o que abandonar, e sem isso o
+## botao de desistir era a unica saida da tela — e respondia NOT_A_PARTICIPANT.
+## Aqui ele vira "Sair", com a mesma limpeza do fim de partida.
+func _configurar_observador(snap: Dictionary) -> void:
+	_observando = _sem_lado_proprio(snap)
+	if _observando and btn_resign:
+		btn_resign.text = "Sair"
+		btn_resign.tooltip_text = "Parar de assistir e voltar ao lobby"
+
+func _sem_lado_proprio(snap: Dictionary) -> bool:
+	if not RestClient.my_side.is_empty():
+		return false
+	for jogador in snap.get("players", []):
+		if typeof(jogador) == TYPE_DICTIONARY and jogador.get("kind") == "HUMAN":
+			return false
+	return true
+
+## Desinscreve, limpa o estado da partida e volta ao lobby.
+func _sair_da_partida() -> void:
+	WsClient.disconnect_from_game()
+	RestClient.current_game_snapshot = {}
+	RestClient.my_side = ""
+	Router.unload_level()
+	Router.navigate_to("Lobby")
+
 func _on_resign_pressed() -> void:
+	if _observando:
+		btn_resign.disabled = true
+		_sair_da_partida()
+		return
 	if not is_game_active:
 		return
 	lbl_resign_message.text = DEFAULT_RESIGN_MSG
@@ -276,11 +307,7 @@ func _extract_winner_side(outcome: String, raw_winner: Variant) -> String:
 
 func _on_exit_match_pressed() -> void:
 	btn_exit_match.disabled = true
-	WsClient.disconnect_from_game()
-	RestClient.current_game_snapshot = {}
-	RestClient.my_side = ""
-	Router.unload_level()
-	Router.navigate_to("Lobby")
+	_sair_da_partida()
 
 # ==========================================================================
 # Tema visual
