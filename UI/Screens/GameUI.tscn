@@ -117,10 +117,122 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -120.0
+offset_left = -160.0
 offset_top = -60.0
 offset_right = -20.0
 offset_bottom = -20.0
 grow_horizontal = 0
 grow_vertical = 0
-text = "Desistir"
+text = "Abandonar"
+
+[node name="ResignConfirmOverlay" type="ColorRect" parent="HUD"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.65)
+
+[node name="Center" type="CenterContainer" parent="HUD/ResignConfirmOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CardPanel" type="PanelContainer" parent="HUD/ResignConfirmOverlay/Center"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="HUD/ResignConfirmOverlay/Center/CardPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 28
+
+[node name="VBox" type="VBoxContainer" parent="HUD/ResignConfirmOverlay/Center/CardPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="HUD/ResignConfirmOverlay/Center/CardPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Abandonar Partida?"
+horizontal_alignment = 1
+
+[node name="Message" type="Label" parent="HUD/ResignConfirmOverlay/Center/CardPanel/Margin/VBox"]
+layout_mode = 2
+text = "Se você abandonar agora, a partida será encerrada e contará como derrota."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="HUD/ResignConfirmOverlay/Center/CardPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="BtnCancelResign" type="Button" parent="HUD/ResignConfirmOverlay/Center/CardPanel/Margin/VBox/Buttons"]
+layout_mode = 2
+text = "Continuar"
+
+[node name="BtnConfirmResign" type="Button" parent="HUD/ResignConfirmOverlay/Center/CardPanel/Margin/VBox/Buttons"]
+layout_mode = 2
+text = "Abandonar"
+
+[node name="GameOverOverlay" type="ColorRect" parent="HUD"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.72)
+
+[node name="Center" type="CenterContainer" parent="HUD/GameOverOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CardPanel" type="PanelContainer" parent="HUD/GameOverOverlay/Center"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="HUD/GameOverOverlay/Center/CardPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 36
+
+[node name="VBox" type="VBoxContainer" parent="HUD/GameOverOverlay/Center/CardPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="HUD/GameOverOverlay/Center/CardPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "VITÓRIA!"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="HUD/GameOverOverlay/Center/CardPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Você venceu a partida."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Reason" type="Label" parent="HUD/GameOverOverlay/Center/CardPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Motivo: Xeque-mate"
+horizontal_alignment = 1
+
+[node name="BtnExitMatch" type="Button" parent="HUD/GameOverOverlay/Center/CardPanel/Margin/VBox"]
+layout_mode = 2
+text = "Sair da Partida"

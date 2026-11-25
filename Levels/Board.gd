@@ -4,10 +4,14 @@ class_name Board
 static var instance: Board
 
 func _ready() -> void:
-	if instance == null:
+	if not is_instance_valid(instance):
 		instance = self
 	elif instance != self:
 		queue_free()
+
+func _exit_tree() -> void:
+	if instance == self:
+		instance = null
 
 func get_position_in_board(coordinates: Vector2) -> Variant:
 	if coordinates.x < 0 or coordinates.x > 7 or coordinates.y < 0 or coordinates.y > 7:

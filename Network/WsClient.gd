@@ -111,7 +111,7 @@ func send_resign() -> bool:
 	if current_subscribed_game.is_empty():
 		return false
 	return _send({
-		"type": "game.resign",
+		"type": "game.abandon",
 		"requestId": _next_request_id("rs"),
 		"gameId": current_subscribed_game,
 	})

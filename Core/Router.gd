@@ -37,10 +37,13 @@ func load_level(level_path: String) -> void:
 		printerr("LevelContainer não foi definido no Router.")
 		return
 
-	if _current_level != null:
-		_current_level.queue_free()
-		_current_level = null
+	unload_level()
 
 	var scene: PackedScene = load(level_path)
 	_current_level = scene.instantiate()
 	level_container.add_child(_current_level)
+
+func unload_level() -> void:
+	if _current_level != null:
+		_current_level.queue_free()
+		_current_level = null
