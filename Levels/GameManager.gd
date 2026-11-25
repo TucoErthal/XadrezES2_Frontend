@@ -237,10 +237,20 @@ func _on_game_snapshot(payload: Dictionary) -> void:
 	_clear_selection()
 	_rebuild_pieces()
 
+## Reconstroi o tabuleiro a partir de `state`.
+##
+## Esta funcao e sincrona de proposito. Com `await` no meio, dois snapshots que
+## chegassem no mesmo quadro — o lance do jogador e a resposta da IA, que vem em
+## milissegundos — iniciavam duas execucoes intercaladas: as duas liberavam as
+## pecas e depois as duas instanciavam, deixando peca duplicada ou tabuleiro
+## vazio. `remove_child` dispara `_exit_tree` na hora, entao `Piece.all_pieces`
+## esvazia antes de instanciar, sem precisar esperar o quadro seguinte.
 func _rebuild_pieces() -> void:
 	for piece in Piece.all_pieces.duplicate():
+		var pai: Node = piece.get_parent()
+		if pai != null:
+			pai.remove_child(piece)
 		piece.queue_free()
-	await get_tree().process_frame
 
 	for y in range(8):
 		for x in range(8):
