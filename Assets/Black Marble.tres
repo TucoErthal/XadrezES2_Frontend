@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c85o1re50jumf"]
+
+[ext_resource type="Texture2D" uid="uid://npct5j102als" path="res://Assets/chess_Black Marble_BaseColor.jpg" id="1_dtu68"]
+[ext_resource type="Texture2D" uid="uid://c0ry4rmiw2qv0" path="res://Assets/chess_Black Marble_Roughness.png" id="2_1uedu"]
+[ext_resource type="Texture2D" uid="uid://bbwwmmwtgvvdx" path="res://Assets/chess_Black Marble_Normal.jpg" id="3_u2ki6"]
+
+[resource]
+resource_name = "Black Marble"
+cull_mode = 2
+albedo_texture = ExtResource("1_dtu68")
+metallic_texture = ExtResource("2_1uedu")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_1uedu")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_scale = 0.2
+normal_texture = ExtResource("3_u2ki6")
+uv1_scale = Vector3(0.18, 0.18, 1)
+uv1_offset = Vector3(0, 0.82, 0)
+metadata/_gltf_primary_texture_coord = 1

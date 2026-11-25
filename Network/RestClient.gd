@@ -55,19 +55,29 @@ func fetch_public_games() -> void:
 	http.request(Env.api_url + "/v1/games?page=0&size=20", _get_headers(), HTTPClient.METHOD_GET)
 
 # POST /v1/games
-func create_game(is_private: bool, time_ms: int) -> void:
+func create_game(is_private: bool, time_ms: int, mode: String = "HUMAN_VS_HUMAN", side: String = "WHITE") -> void:
 	var http := _create_request_node()
 	var visibility = "PRIVATE" if is_private else "PUBLIC"
 	var payload = {
 		"visibility": visibility,
-		"timeControl": {"initialTimeMs": time_ms, "incrementMs": 0}
+		"timeControl": {"initialTimeMs": time_ms, "incrementMs": 0},
+		"mode": mode
 	}
+	# "side" escolhe o lado do humano e so vale em HUMAN_VS_AI.
+	if mode == "HUMAN_VS_AI":
+		payload["side"] = side
 	
 	http.request_completed.connect(func(_res: int, code: int, _h: PackedStringArray, body_bytes: PackedByteArray):
 		var response = _parse_response(body_bytes)
 		if code == 201:
 			current_game_snapshot = response
-			my_side = "WHITE"
+			# Em AI_VS_AI a sessao e observadora: sem lado proprio.
+			if mode == "AI_VS_AI":
+				my_side = ""
+			elif mode == "HUMAN_VS_AI":
+				my_side = side
+			else:
+				my_side = "WHITE"
 			on_game_created.emit(true, response)
 		else:
 			on_game_created.emit(false, response)
@@ -104,6 +114,7 @@ func join_game(game_id: String, entry_code: String = "") -> void:
 		var response = _parse_response(body_bytes)
 		if code == 200:
 			current_game_snapshot = response
+			my_side = "BLACK" # quem entra numa partida é sempre as Pretas
 			on_game_joined.emit(true, response)
 		else:
 			on_game_joined.emit(false, response)

@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://co02io5mvk2b1"]
+
+[ext_resource type="Script" uid="uid://dpm73y3udkkf6" path="res://Tests/FrontendSandbox.gd" id="1_4r8uv"]
+[ext_resource type="PackedScene" uid="uid://bji3xgt46glrj" path="res://Levels/Level.tscn" id="2_lhicq"]
+
+[node name="SandboxTest" type="Node" unique_id=1950084851]
+script = ExtResource("1_4r8uv")
+
+[node name="Level" parent="." unique_id=597853051 instance=ExtResource("2_lhicq")]
