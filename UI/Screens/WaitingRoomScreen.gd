@@ -52,60 +52,36 @@ func _on_mock_join_pressed() -> void:
 
 func _apply_modern_theme() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	if background:
-		background.set_anchors_preset(Control.PRESET_FULL_RECT)
-		background.color = Color("#181820")
-		
-	if card_panel:
-		var panel_style = StyleBoxFlat.new()
-		panel_style.bg_color = Color("#22222d")
-		panel_style.corner_radius_top_left = 16
-		panel_style.corner_radius_top_right = 16
-		panel_style.corner_radius_bottom_left = 16
-		panel_style.corner_radius_bottom_right = 16
-		card_panel.add_theme_stylebox_override("panel", panel_style)
-		
-	if title_label:
-		title_label.add_theme_font_size_override("font_size", 28)
-		title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	
-	if input_code:
-		var line_edit_style = StyleBoxFlat.new()
-		line_edit_style.bg_color = Color("#181820")
-		line_edit_style.corner_radius_top_left = 8
-		line_edit_style.corner_radius_bottom_left = 8
-		line_edit_style.content_margin_left = 15
-		line_edit_style.content_margin_right = 15
-		input_code.add_theme_stylebox_override("normal", line_edit_style)
-		input_code.add_theme_stylebox_override("read_only", line_edit_style)
-		
-	# Estilo do Botão Copiar (Azul)
-	var copy_style = StyleBoxFlat.new()
-	copy_style.bg_color = Color("#3d73ff")
-	copy_style.corner_radius_top_right = 8
-	copy_style.corner_radius_bottom_right = 8
-	copy_style.content_margin_left = 20
-	copy_style.content_margin_right = 20
-	if btn_copy:
-		btn_copy.add_theme_stylebox_override("normal", copy_style)
-		btn_copy.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	
-	# Estilo Cancelar (Vermelho escuro)
-	var cancel_style = StyleBoxFlat.new()
-	cancel_style.bg_color = Color("#991b1b")
-	cancel_style.corner_radius_top_left = 8
-	cancel_style.corner_radius_top_right = 8
-	cancel_style.corner_radius_bottom_left = 8
-	cancel_style.corner_radius_bottom_right = 8
-	cancel_style.content_margin_top = 12
-	cancel_style.content_margin_bottom = 12
-	if btn_cancel:
-		btn_cancel.add_theme_stylebox_override("normal", cancel_style)
-		btn_cancel.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 
-	# Estilo Mock (Verde, só pra teste)
-	var mock_style = cancel_style.duplicate()
-	mock_style.bg_color = Color("#10b981")
+	if background:
+		background.visible = false
+
+	UITheme.apply_chess_background(self)
+	UITheme.apply_font(self)
+
+	if card_panel:
+		card_panel.custom_minimum_size = Vector2(420, 0)
+		UITheme.style_card(card_panel)
+
+	if title_label:
+		title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		UITheme.style_title(title_label, true)
+		title_label.add_theme_font_size_override("font_size", 26)
+
+	if input_code:
+		input_code.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		UITheme.style_input(input_code)
+		var code_row := input_code.get_parent()
+		if code_row is HBoxContainer:
+			(code_row as HBoxContainer).add_theme_constant_override("separation", 10)
+
+	if btn_copy:
+		btn_copy.text = "Copiar"
+		UITheme.style_button(btn_copy, "primary")
+
+	if btn_cancel:
+		btn_cancel.text = "Cancelar"
+		UITheme.style_button(btn_cancel, "danger")
+
 	if btn_mock_join:
-		btn_mock_join.add_theme_stylebox_override("normal", mock_style)
-		btn_mock_join.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		UITheme.style_button(btn_mock_join, "secondary")

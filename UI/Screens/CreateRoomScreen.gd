@@ -48,44 +48,28 @@ func _on_cancel_pressed() -> void:
 
 func _apply_modern_theme() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	
+
 	if background:
-		background.set_anchors_preset(Control.PRESET_FULL_RECT)
-		background.color = Color("#181820")
-		
-	# Fundo do "Card" central
+		background.visible = false
+
+	UITheme.apply_chess_background(self)
+	UITheme.apply_font(self)
+
 	if card_panel:
-		var panel_style = StyleBoxFlat.new()
-		panel_style.bg_color = Color("#22222d")
-		panel_style.corner_radius_top_left = 16
-		panel_style.corner_radius_top_right = 16
-		panel_style.corner_radius_bottom_left = 16
-		panel_style.corner_radius_bottom_right = 16
-		card_panel.add_theme_stylebox_override("panel", panel_style)
-		
+		UITheme.style_card(card_panel)
+
 	if title_label:
+		UITheme.style_title(title_label, true)
 		title_label.add_theme_font_size_override("font_size", 28)
-	
-	# Estilo Botão Confirmar (Azul)
-	var confirm_style = StyleBoxFlat.new()
-	confirm_style.bg_color = Color("#3d73ff")
-	confirm_style.corner_radius_top_left = 8
-	confirm_style.corner_radius_top_right = 8
-	confirm_style.corner_radius_bottom_left = 8
-	confirm_style.corner_radius_bottom_right = 8
-	confirm_style.content_margin_left = 30
-	confirm_style.content_margin_right = 30
-	confirm_style.content_margin_top = 12
-	confirm_style.content_margin_bottom = 12
-	
-	# Estilo Botão Cancelar (Cinza Escuro)
-	var cancel_style = confirm_style.duplicate()
-	cancel_style.bg_color = Color("#3a3a4a")
 
 	if btn_confirm:
-		btn_confirm.add_theme_stylebox_override("normal", confirm_style)
-		btn_confirm.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-		
+		UITheme.style_button(btn_confirm, "primary")
+
 	if btn_cancel:
-		btn_cancel.add_theme_stylebox_override("normal", cancel_style)
-		btn_cancel.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		UITheme.style_button(btn_cancel, "secondary")
+
+	if opt_difficulty:
+		UITheme.style_option_button(opt_difficulty)
+
+	if check_private:
+		UITheme.style_checkbox(check_private)

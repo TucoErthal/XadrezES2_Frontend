@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dkmj1iy2wie6" path="res://UI/Screens/LobbyScreen.gd" id="1_do3vk"]
 
-[node name="Control" type="Control" unique_id=1424913001 node_paths=PackedStringArray("background", "title_label", "btn_refresh", "btn_create", "match_list_container", "input_code", "btn_join_code")]
+[node name="Control" type="Control" unique_id=1424913001 node_paths=PackedStringArray("background", "title_label", "btn_refresh", "btn_create", "match_list_container", "input_code", "btn_join_code", "btn_back")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,6 +17,7 @@ btn_create = NodePath("MarginContainer/VBoxContainer/Header/New")
 match_list_container = NodePath("MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer")
 input_code = NodePath("MarginContainer/VBoxContainer/Header/LineEdit")
 btn_join_code = NodePath("MarginContainer/VBoxContainer/Header/Button")
+btn_back = NodePath("MarginContainer/VBoxContainer/Header/BtnBack")
 
 [node name="Background" type="ColorRect" parent="." unique_id=930222663]
 layout_mode = 1
@@ -45,6 +46,10 @@ theme_override_constants/separation = 20
 [node name="Header" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1665442046]
 layout_mode = 2
 theme_override_constants/separation = 20
+
+[node name="BtnBack" type="Button" parent="MarginContainer/VBoxContainer/Header" unique_id=1578738807]
+layout_mode = 2
+text = "←"
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/Header" unique_id=1386852994]
 layout_mode = 2
