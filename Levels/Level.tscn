@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://d0gp0q28qb71u" path="res://Levels/Board.gd" id="2_286st"]
 [ext_resource type="Script" uid="uid://b2pvdylhbjgav" path="res://Entities/Camera/CameraControls.gd" id="4_n6v67"]
 [ext_resource type="Script" uid="uid://bpjo80s1xeytb" path="res://Levels/GameManager.gd" id="6_q1ycg"]
+[ext_resource type="Script" path="res://Levels/GameAudio.gd" id="7_audio"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_qh0ns"]
 size = Vector3(8, 0.25, 8)
@@ -35,3 +36,6 @@ shadow_enabled = true
 
 [node name="GameManager" type="Node" parent="." unique_id=1709977607]
 script = ExtResource("6_q1ycg")
+
+[node name="GameAudio" type="Node" parent="."]
+script = ExtResource("7_audio")

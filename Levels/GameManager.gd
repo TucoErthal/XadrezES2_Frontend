@@ -49,6 +49,9 @@ var _markers: Node3D
 signal promotion_requested(from: Vector2i, to: Vector2i)
 ## O lance não foi aceito (recusado pelo servidor ou sem conexão).
 signal move_rejected(code: String, message: String)
+## A partida avançou para uma nova posição. `own_check`: o rei do jogador está em
+## xeque (para quem observa, o rei de qualquer lado).
+signal position_changed(captured: bool, own_check: bool)
 
 func _ready() -> void:
 	add_to_group("game_manager")
@@ -225,6 +228,8 @@ func _on_game_snapshot(payload: Dictionary) -> void:
 	if parsed.is_empty():
 		printerr("FEN inválida recebida do servidor: ", fen)
 		return
+	var is_first_position := state.is_empty()
+	var captured := _piece_count(parsed) < _piece_count(state)
 	state = parsed
 	_last_fen = fen
 	var last_move = position_data.get("lastMoveUci")
@@ -236,6 +241,19 @@ func _on_game_snapshot(payload: Dictionary) -> void:
 
 	_clear_selection()
 	_rebuild_pieces()
+
+	if not is_first_position:
+		var own_check := _king_in_check() != NO_SQUARE and (is_my_turn or my_side.is_empty())
+		position_changed.emit(captured, own_check)
+
+## Peças no tabuleiro; só diminui quando há captura (inclusive en passant).
+func _piece_count(position: Dictionary) -> int:
+	var count := 0
+	for y in range(8):
+		for x in range(8):
+			if not position.is_empty() and ChessRules.piece_at(position, Vector2i(x, y)) != "":
+				count += 1
+	return count
 
 ## Reconstroi o tabuleiro a partir de `state`.
 ##
