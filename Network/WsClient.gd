@@ -94,9 +94,11 @@ func _send_subscribe(game_id: String) -> void:
 # ==========================================================================
 # Comandos de jogo (contrato proposto — ver cabeçalho)
 # ==========================================================================
-
+var mock_send_move: Callable
 ## Envia um lance em UCI ("e2e4", "e7e8q"). Devolve false se não deu para enviar.
 func send_move(uci: String) -> bool:
+	if mock_send_move.is_valid():
+		return bool(mock_send_move.call(uci))
 	if current_subscribed_game.is_empty() or uci.is_empty():
 		return false
 	return _send({

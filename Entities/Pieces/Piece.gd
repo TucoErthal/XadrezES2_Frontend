@@ -80,7 +80,6 @@ func _load_piece_mesh(type_char: String, color_code: String) -> Mesh:
 		for ext in extensions:
 			var full_path = theme_path.path_join(name_variant + ext)
 			if ResourceLoader.exists(full_path):
-				print("[DEBUG] Carregou com sucesso: ", full_path)
 				var res = load(full_path)
 				if res is Mesh:
 					return res
